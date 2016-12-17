@@ -36,7 +36,7 @@ class ComponentLoginPage
      */
     protected $redirectUri = '';
 
-    public function __construct($componentAppId, $preAuthCode, $redirectUri)
+    public function __construct($componentAppId,PreAuthCode $preAuthCode, $redirectUri)
     {
         $this->componentAppId = $componentAppId;
         $this->preAuthCode    = $preAuthCode;

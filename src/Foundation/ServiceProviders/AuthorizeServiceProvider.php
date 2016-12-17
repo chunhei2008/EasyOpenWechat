@@ -34,7 +34,11 @@ class AuthorizeServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['auth'] = function ($pimple) {
-            $auth = new Authorize($pimple['config']);
+            $auth = new Authorize(
+                $pimple['config']['token'],
+                $pimple['authorize_handler'],
+                $pimple['component_verify_ticket']
+            );
 
             $auth->debug($pimple['config']['debug']);
 

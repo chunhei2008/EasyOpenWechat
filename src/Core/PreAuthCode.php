@@ -39,7 +39,7 @@ class PreAuthCode
     protected $componentAccessToken;
 
 
-    public function __construct($componentAppId, $componentAccessToken)
+    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken)
     {
         $this->componentAppId       = $componentAppId;
         $this->componentAccessToken = $componentAccessToken;

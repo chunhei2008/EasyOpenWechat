@@ -2,11 +2,13 @@
 namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeHandlerServiceProvider;
+use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerRefreshTokenDefaultProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentAccessTokenServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentLoginPageServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentVerifyTicketServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\EasyWechatServiceProvider;
+use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\PreAuthCodeServiceProvider;
 use Doctrine\Common\Cache\Cache as CacheInterface;
 use EasyWeChat\Foundation\Config;
 use Pimple\Container;
@@ -27,12 +29,14 @@ class Application extends Container
      * @var array
      */
     protected $providers = [
-        AuthorizeServiceProvider::class,
-        EasyWechatServiceProvider::class,
         ComponentVerifyTicketServiceProvider::class,
-        ComponentAccessTokenServiceProvider::class,
-        ComponentLoginPageServiceProvider::class,
         AuthorizeHandlerServiceProvider::class,
+        AuthorizeServiceProvider::class,
+        AuthorizerRefreshTokenDefaultProvider::class,
+        ComponentAccessTokenServiceProvider::class,
+        PreAuthCodeServiceProvider::class,
+        ComponentLoginPageServiceProvider::class,
+        EasyWechatServiceProvider::class,
     ];
 
     public function __construct($config)

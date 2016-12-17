@@ -13,18 +13,32 @@ namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 use Aws\CloudFront\Exception\Exception;
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizeHandlerContract;
+use Chunhei2008\EasyOpenWechat\Core\ComponentVerifyTicket;
 use EasyWeChat\Server\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class Authorize extends Guard
 {
+    /**
+     * authorize handler
+     *
+     * @var AuthorizeHandlerContract
+     */
     protected $authorizeHandler;
+    /**
+     * component verify ticket
+     *
+     * @var ComponentVerifyTicket
+     */
+    protected $componentVerifyTicket;
 
-    public function __construct($token, AuthorizeHandlerContract $authorizeHandler, Request $request = null)
+    public function __construct($token, AuthorizeHandlerContract $authorizeHandler, ComponentVerifyTicket $componentVerifyTicket, Request $request = null)
     {
         parent::__construct($token, $request);
-        $this->authorizeHandler = $authorizeHandler;
+
+        $this->authorizeHandler      = $authorizeHandler;
+        $this->componentVerifyTicket = $componentVerifyTicket;
     }
 
     /**
@@ -35,19 +49,31 @@ class Authorize extends Guard
 
     public function handle()
     {
-        Log::debug('Request received:', [
-            'Method'   => $this->request->getMethod(),
-            'URI'      => $this->request->getRequestUri(),
-            'Query'    => $this->request->getQueryString(),
-            'Protocal' => $this->request->server->get('SERVER_PROTOCOL'),
-            'Content'  => $this->request->getContent(),
-        ]);
 
         $this->validate($this->token);
 
         $this->handleRequest();
 
         return new Response(static::SUCCESS_EMPTY_RESPONSE);
+    }
+
+    public function handleRequest()
+    {
+        $message = $this->getMessage();
+        switch ($message) {
+            case 'component_verify_ticket':
+                $this->authorizeHandler->componentVerifyTicket($message, $this->componentVerifyTicket);
+                break;
+            case 'authorized':
+                $this->authorizeHandler->authorized($message);
+                break;
+            case 'unauthorized':
+                $this->authorizeHandler->unauthorized($message);
+                break;
+            case 'updateauthorized':
+                $this->authorizeHandler->updateauthorized($message);
+                break;
+        }
     }
 
     /**
