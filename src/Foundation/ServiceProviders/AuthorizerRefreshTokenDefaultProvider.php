@@ -10,8 +10,6 @@
 
 namespace Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders;
 
-
-use Chunhei2008\EasyOpenWechat\Core\AuthorizerAccessToken;
 use Chunhei2008\EasyOpenWechat\Core\AuthorizerRefreshToken;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
