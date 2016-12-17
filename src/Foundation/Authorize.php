@@ -27,6 +27,9 @@ class Authorize extends Guard
         $this->authorizeHandler = $authorizeHandler;
     }
 
+    public function getComponentLoginPage(){
+
+    }
 
     /**
      * handle authorize event
