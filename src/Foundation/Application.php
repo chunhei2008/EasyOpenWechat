@@ -7,7 +7,10 @@ use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentAccessTokenS
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentLoginPageServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentVerifyTicketServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\EasyWechatServiceProvider;
+use Doctrine\Common\Cache\Cache as CacheInterface;
+use EasyWeChat\Foundation\Config;
 use Pimple\Container;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Application.php
@@ -35,7 +38,35 @@ class Application extends Container
     public function __construct($config)
     {
         parent::__construct();
+
+        $this['config'] = function () use ($config) {
+            return new Config($config);
+        };
+
+        if ($this['config']['debug']) {
+            error_reporting(E_ALL);
+        }
+
         $this->registerProviders();
+        $this->registerBase();
+    }
+
+    /**
+     * register base provider
+     */
+    public function registerBase()
+    {
+        $this['request'] = function () {
+            return Request::createFromGlobals();
+        };
+
+        if (!empty($this['config']['cache']) && $this['config']['cache'] instanceof CacheInterface) {
+            $this['cache'] = $this['config']['cache'];
+        } else {
+            $this['cache'] = function () {
+                return new FilesystemCache(sys_get_temp_dir());
+            };
+        }
     }
 
     /**

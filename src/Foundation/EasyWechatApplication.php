@@ -35,6 +35,10 @@ class EasyWechatApplication extends Application
         $this->registerBase();
     }
 
+    /**
+     * register base provider
+     */
+
     private function registerBase()
     {
         $this->registerApp();
