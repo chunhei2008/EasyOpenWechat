@@ -1,5 +1,9 @@
 <?php
 namespace Chunhei2008\EasyOpenWechat\Contracts;
+
+use Chunhei2008\EasyOpenWechat\Core\ComponentVerifyTicket;
+
+
 /**
  * AuthPushContract.php
  *
@@ -13,12 +17,13 @@ interface AuthorizeHandlerContract
     /**
      * handle component verify ticket
      *
-     * @param $message
+     * @param                       $message
+     * @param ComponentVerifyTicket $componentVerifyTicket
      *
      * @return mixed
      */
 
-    public function componentVerifyTicket($message);
+    public function componentVerifyTicket($message, ComponentVerifyTicket $componentVerifyTicket);
 
     /**
      * handle authorized

@@ -16,7 +16,7 @@ use Chunhei2008\EasyOpenWechat\Contracts\AuthorizeHandlerContract;
 class AuthorizeHandler implements AuthorizeHandlerContract
 {
 
-    public function componentVerifyTicket($message)
+    public function componentVerifyTicket($message,ComponentVerifyTicket $componentVerifyTicket)
     {
         // TODO: Implement componentVerifyTicket() method.
     }
