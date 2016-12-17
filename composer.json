@@ -1,5 +1,11 @@
 {
   "name": "chunhei2008/easy-open-wechat",
+  "authors": [
+    {
+      "name": "chunhei2008",
+      "email": "chunhei2008@qq.com"
+    }
+  ],
   "description": "easy open wechat",
   "license": "MIT",
   "require": {
@@ -9,5 +15,6 @@
     "psr-4": {
       "Chunhei2008\\EasyOpenWechat\\": "src/"
     }
-  }
+  },
+  "minimum-stability": "0.0.1-dev"
 }
