@@ -21,7 +21,10 @@ class AuthorizerRefreshTokenDefaultProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['authorizer_refresh_token'] = function ($pimple) {
-            return new AuthorizerRefreshToken($pimple['config']['app_id']);
+            return new AuthorizerRefreshToken(
+                $pimple['config']['app_id'],
+                $pimple['cache']
+            );
         };
     }
 }
