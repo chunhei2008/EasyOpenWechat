@@ -13,14 +13,34 @@ namespace Chunhei2008\EasyOpenWechat\Core;
 
 class AuthorizerInfo
 {
-
+    /**
+     * api
+     */
     const API_GET_AUTHORIZER_INFO = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=';
-
+    /**
+     * component app id
+     * @var
+     */
     protected $componentAppId;
+
+    /**
+     *
+     * authorizer app id
+     *
+     * @var
+     */
+
     protected $authorizerAppId;
+
+    /**
+     * component access token
+     *
+     * @var ComponentAccessToken
+     */
+
     protected $componentAccessToken;
 
-    public function __construct($componentAppId, $authorizerAppId, $componentAccessToken)
+    public function __construct($componentAppId, $authorizerAppId, ComponentAccessToken $componentAccessToken)
     {
         $this->componentAppId       = $componentAppId;
         $this->authorizerAppId      = $authorizerAppId;
