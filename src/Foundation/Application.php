@@ -1,6 +1,7 @@
 <?php
 namespace Chunhei2008\EasyOpenWechat\Foundation;
 
+use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeHandlerServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentAccessTokenServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentLoginPageServiceProvider;
@@ -28,6 +29,7 @@ class Application extends Container
         ComponentVerifyTicketServiceProvider::class,
         ComponentAccessTokenServiceProvider::class,
         ComponentLoginPageServiceProvider::class,
+        AuthorizeHandlerServiceProvider::class,
     ];
 
     public function __construct($config)
