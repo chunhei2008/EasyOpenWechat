@@ -12,27 +12,26 @@ namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 
 use Chunhei2008\EasyOpenWechat\Core\AuthorizerAccessToken;
-use Chunhei2008\EasyOpenWechat\Foundation\Application as EasyOpenWechatApplication;
+use Chunhei2008\EasyOpenWechat\Core\AuthorizerRefreshToken;
+use Chunhei2008\EasyOpenWechat\Core\ComponentAccessToken;
 use EasyWeChat\Foundation\Application;
 
 class EasyWechatApplication extends Application
 {
-    /**
-     * easy open wechat application
-     * @var
-     */
-
-    protected $easyOpenWechatApplication;
 
     /**
-     * Application constructor.
+     * EasyWechatApplication constructor.
      *
-     * @param array $config
+     * @param array                  $config
+     * @param AuthorizerRefreshToken $authorizerRefreshToken
+     * @param ComponentAccessToken   $componentAccessToken
      */
-    public function __construct(EasyOpenWechatApplication $app)
+    public function __construct($config, AuthorizerRefreshToken $authorizerRefreshToken, ComponentAccessToken $componentAccessToken)
     {
-        parent::__construct($app['config']);
-        $this->easyOpenWechatApplication = $app;
+        parent::__construct($config);
+        $this['authorizer_refresh_token'] = $authorizerRefreshToken;
+        $this['component_access_token']   = $componentAccessToken;
+
         $this->registerBase();
     }
 
@@ -40,8 +39,6 @@ class EasyWechatApplication extends Application
     {
         $this->registerApp();
         $this->registerServer();
-        $this->registerComponentAccessToken();
-        $this->registerAuthorizerRefreshToken();
         $this->registerAccessToken();
     }
 
@@ -51,16 +48,6 @@ class EasyWechatApplication extends Application
     private function registerApp()
     {
         $this['app'] = $this;
-    }
-
-    private function registerAuthorizerRefreshToken()
-    {
-        $this['authorizer_refresh_token'] = $this->easyOpenWechatApplication['authorizer_refresh_token'];
-    }
-
-    private function registerComponentAccessToken()
-    {
-        $this['component_access_token'] = $this->easyOpenWechatApplication['component_access_token'];
     }
 
     /**

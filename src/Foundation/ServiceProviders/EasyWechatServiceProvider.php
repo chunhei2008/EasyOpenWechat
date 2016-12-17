@@ -23,7 +23,11 @@ class EasyWechatServiceProvider extends ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['wechat'] = function ($pimple) {
-            return new EasyWechatApplication($pimple);
+            return new EasyWechatApplication(
+                $pimple['config'],
+                $pimple['authorizer_refresh_token'],
+                $pimple['component_access_token']
+            );
         };
     }
 }
