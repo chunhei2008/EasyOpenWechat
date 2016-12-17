@@ -1,0 +1,13 @@
+{
+  "name": "chunhei2008/EasyOpenWechat",
+  "description": "easy open wechat",
+  "license": "MIT",
+  "require": {
+    "overtrue/wechat": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Chunhei2008\\EasyOpenWechat\\": "src/"
+    }
+  }
+}
