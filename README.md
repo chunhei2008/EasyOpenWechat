@@ -1,11 +1,10 @@
 # easy open wechat
 
-## 说明
-> 本SDK是基于overtrue/wechat开发的，用于方便开发公众号第三方平台
+[![Latest Stable Version](https://poser.pugx.org/chunhei2008/easy-open-wechat/v/stable)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
+[![Total Downloads](https://poser.pugx.org/chunhei2008/easy-open-wechat/downloads)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
+[![License](https://poser.pugx.org/chunhei2008/easy-open-wechat/license)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
+[![Monthly Downloads](https://poser.pugx.org/chunhei2008/easy-open-wechat/d/monthly)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
+[![Daily Downloads](https://poser.pugx.org/chunhei2008/easy-open-wechat/d/daily)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
+[![composer.lock](https://poser.pugx.org/chunhei2008/easy-open-wechat/composerlock)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
 
-## 使用
-
-
-## 感谢
-
-1. overtrue/wechat（安正超）
+> 开发ing
