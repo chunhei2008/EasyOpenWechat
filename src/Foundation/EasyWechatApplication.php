@@ -75,6 +75,14 @@ class EasyWechatApplication extends WechatApplication
      */
     private function registerServer()
     {
+        $this['encryptor'] = function () {
+            return new Encryptor(
+                $this['config']['component_app_id'],
+                $this['config']['token'],
+                $this['config']['aes_key']
+            );
+        };
+
         $this['server'] = function () {
             $server = new EasyWechatGuard($this['app']);
 
