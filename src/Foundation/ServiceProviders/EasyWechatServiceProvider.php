@@ -13,7 +13,7 @@ use Pimple\ServiceProviderInterface;
  * Date:   2016/12/15 23:56
  * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
  */
-class EasyWechatServiceProvider extends ServiceProviderInterface
+class EasyWechatServiceProvider implements ServiceProviderInterface
 {
     /**
      * register wechat service
