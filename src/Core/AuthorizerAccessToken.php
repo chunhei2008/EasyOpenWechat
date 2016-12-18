@@ -51,13 +51,6 @@ class AuthorizerAccessToken extends AccessToken
     protected $componentAccessToken;
 
     /**
-     * Query name.
-     *
-     * @var string
-     */
-    protected $queryName = 'authorizer_access_token';
-
-    /**
      * Cache key prefix.
      *
      * @var string

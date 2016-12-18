@@ -11,6 +11,7 @@
 namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 use EasyWeChat\Server\Guard;
+use EasyWeChat\Support\Log;
 use Symfony\Component\HttpFoundation\Request;
 
 class EasyWechatGuard extends Guard
@@ -82,6 +83,7 @@ class EasyWechatGuard extends Guard
      */
     protected function handlePublishMessage($message)
     {
+        Log::debug('Publish Message:', $message);
         switch ($message['MsgType']) {
             case 'text':
                 if ($message['Content'] == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
