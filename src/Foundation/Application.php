@@ -50,7 +50,7 @@ class Application extends Container
 
     public function __construct($config)
     {
-        parent::__construct($config);
+        parent::__construct();
 
         $this['config'] = function () use ($config) {
             return new Config($config);
@@ -113,5 +113,28 @@ class Application extends Container
         }
 
         Log::setLogger($logger);
+    }
+
+    /**
+     * Magic get access.
+     *
+     * @param string $id
+     *
+     * @return mixed
+     */
+    public function __get($id)
+    {
+        return $this->offsetGet($id);
+    }
+
+    /**
+     * Magic set access.
+     *
+     * @param string $id
+     * @param mixed  $value
+     */
+    public function __set($id, $value)
+    {
+        $this->offsetSet($id, $value);
     }
 }
