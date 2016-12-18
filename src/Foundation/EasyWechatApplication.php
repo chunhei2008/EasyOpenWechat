@@ -75,12 +75,12 @@ class EasyWechatApplication extends WechatApplication
      */
     private function registerServer()
     {
-        $this['server'] = function ($pimple) {
-            $server = new EasyWechatGuard($pimple['app']);
+        $this['server'] = function () {
+            $server = new EasyWechatGuard($this['app']);
 
-            $server->debug($pimple['config']['debug']);
+            $server->debug($this['config']['debug']);
 
-            $server->setEncryptor($pimple['encryptor']);
+            $server->setEncryptor($this['encryptor']);
 
             return $server;
         };

@@ -50,7 +50,7 @@ class Application extends Container
 
     public function __construct($config)
     {
-        parent::__construct();
+        parent::__construct($config);
 
         $this['config'] = function () use ($config) {
             return new Config($config);
@@ -102,7 +102,7 @@ class Application extends Container
             return;
         }
 
-        $logger = new Logger('easywechat');
+        $logger = new Logger('easyopenwechat');
 
         if (!$this['config']['debug'] || defined('PHPUNIT_RUNNING')) {
             $logger->pushHandler(new NullHandler());
