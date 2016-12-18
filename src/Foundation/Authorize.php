@@ -15,8 +15,9 @@ use Aws\CloudFront\Exception\Exception;
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizeHandlerContract;
 use Chunhei2008\EasyOpenWechat\Core\ComponentVerifyTicket;
 use EasyWeChat\Server\Guard;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class Authorize extends Guard
 {
