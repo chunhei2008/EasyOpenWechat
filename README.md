@@ -6,5 +6,7 @@
 [![Monthly Downloads](https://poser.pugx.org/chunhei2008/easy-open-wechat/d/monthly)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
 [![Daily Downloads](https://poser.pugx.org/chunhei2008/easy-open-wechat/d/daily)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
 [![composer.lock](https://poser.pugx.org/chunhei2008/easy-open-wechat/composerlock)](https://packagist.org/packages/chunhei2008/easy-open-wechat)
+[![Build Status](https://travis-ci.org/chunhei2008/EasyOpenWechat.svg?branch=master)](https://travis-ci.org/chunhei2008/EasyOpenWechat)
+
 
 > 开发ing
