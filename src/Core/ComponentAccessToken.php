@@ -58,7 +58,7 @@ class ComponentAccessToken
 
     protected $componentVerifyTicket;
 
-    public function __construct($componentAppId, $componentAppSecret, $componentVerifyTicket, Cache $cache = null)
+    public function __construct($componentAppId, $componentAppSecret,ComponentVerifyTicket $componentVerifyTicket, Cache $cache = null)
     {
         $this->componentAppId        = $componentAppId;
         $this->componentAppSecret    = $componentAppSecret;
