@@ -12,6 +12,7 @@ use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\EasyWechatServiceProv
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\PreAuthCodeServiceProvider;
 use Chunhei2008\EasyOpenWechat\Support\Log;
 use Doctrine\Common\Cache\Cache as CacheInterface;
+use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Foundation\Config;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
