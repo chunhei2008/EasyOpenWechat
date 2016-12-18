@@ -11,6 +11,7 @@
 namespace Chunhei2008\EasyOpenWechat\Core;
 
 
+use Chunhei2008\EasyOpenWechat\Support\Log;
 use Chunhei2008\EasyOpenWechat\Traits\HttpTrait;
 use EasyWeChat\Core\Exceptions\HttpException;
 
@@ -50,7 +51,9 @@ class PreAuthCode
      */
     public function getPreAuthCode()
     {
-        $this->getAuthCodeFromServer();
+        $authCode = $this->getAuthCodeFromServer();
+        Log::debug('Pre auth code:', $authCode['pre_auth_code']);
+        return $authCode['pre_auth_code'];
     }
 
     /**

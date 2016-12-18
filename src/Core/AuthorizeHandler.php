@@ -12,12 +12,14 @@ namespace Chunhei2008\EasyOpenWechat\Core;
 
 
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizeHandlerContract;
+use Chunhei2008\EasyOpenWechat\Support\Log;
 
 class AuthorizeHandler implements AuthorizeHandlerContract
 {
 
     public function componentVerifyTicket($message, ComponentVerifyTicket $componentVerifyTicket)
     {
+        Log::debug('Component verify ticket:', $message['ComponentVerifyTicket']);
         $componentVerifyTicket->setVerifyTicket($message['ComponentVerifyTicket']);
     }
 

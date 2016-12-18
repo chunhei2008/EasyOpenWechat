@@ -10,8 +10,13 @@ use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentLoginPageSer
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentVerifyTicketServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\EasyWechatServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\PreAuthCodeServiceProvider;
+use Chunhei2008\EasyOpenWechat\Support\Log;
 use Doctrine\Common\Cache\Cache as CacheInterface;
 use EasyWeChat\Foundation\Config;
+use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -56,6 +61,7 @@ class Application extends Container
 
         $this->registerProviders();
         $this->registerBase();
+        $this->initializeLogger();
     }
 
     /**
@@ -86,4 +92,25 @@ class Application extends Container
         }
     }
 
+    /**
+     * Initialize logger.
+     */
+    private function initializeLogger()
+    {
+        if (Log::hasLogger()) {
+            return;
+        }
+
+        $logger = new Logger('easywechat');
+
+        if (!$this['config']['debug'] || defined('PHPUNIT_RUNNING')) {
+            $logger->pushHandler(new NullHandler());
+        } elseif ($this['config']['log.handler'] instanceof HandlerInterface) {
+            $logger->pushHandler($this['config']['log.handler']);
+        } elseif ($logFile = $this['config']['log.file']) {
+            $logger->pushHandler(new StreamHandler($logFile, $this['config']->get('log.level', Logger::WARNING)));
+        }
+
+        Log::setLogger($logger);
+    }
 }
