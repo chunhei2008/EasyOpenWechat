@@ -14,9 +14,9 @@ namespace Chunhei2008\EasyOpenWechat\Foundation;
 use Chunhei2008\EasyOpenWechat\Core\AuthorizerAccessToken;
 use Chunhei2008\EasyOpenWechat\Core\AuthorizerRefreshToken;
 use Chunhei2008\EasyOpenWechat\Core\ComponentAccessToken;
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Foundation\Application as WechatApplication;
 
-class EasyWechatApplication extends Application
+class EasyWechatApplication extends WechatApplication
 {
 
     /**
