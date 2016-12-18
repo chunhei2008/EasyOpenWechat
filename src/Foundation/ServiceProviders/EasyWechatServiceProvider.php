@@ -24,7 +24,7 @@ class EasyWechatServiceProvider implements ServiceProviderInterface
     {
         $pimple['wechat'] = function ($pimple) {
             return new EasyWechatApplication(
-                $pimple['config'],
+                $pimple['config']->all(),
                 $pimple['authorizer_refresh_token'],
                 $pimple['component_access_token']
             );
