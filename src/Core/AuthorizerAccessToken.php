@@ -13,6 +13,7 @@ namespace Chunhei2008\EasyOpenWechat\Core;
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AccessToken;
+use EasyWeChat\Core\Exceptions\HttpException;
 
 class AuthorizerAccessToken extends AccessToken
 {
