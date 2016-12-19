@@ -11,9 +11,11 @@
 namespace Chunhei2008\EasyOpenWechat\Core;
 
 
+use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
 use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
 use Chunhei2008\EasyOpenWechat\Traits\HttpTrait;
 use Doctrine\Common\Cache\Cache;
+use EasyWeChat\Core\Exceptions\HttpException;
 
 class AuthorizationInfo
 {
@@ -44,22 +46,60 @@ class AuthorizationInfo
      * @var
      */
     protected $authorizationCode;
+    /**
+     *
+     * authorizer refresh token
+     *
+     * @var AuthorizerRefreshTokenContract
+     */
+    protected $authorizerRefreshToken;
 
 
-    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, Cache $cache = null)
+    /**
+     *
+     * authorizer access token
+     *
+     * @var AuthorizerAccessToken
+     */
+
+    protected $authorizerAccessToken;
+
+    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, AuthorizerAccessToken $authorizerAccessToken, AuthorizerRefreshTokenContract $authorizerRefreshToken, Cache $cache = null)
     {
-        $this->componentAppId       = $componentAppId;
-        $this->componentAccessToken = $componentAccessToken;
-        $this->cache                = $cache;
+        $this->componentAppId         = $componentAppId;
+        $this->componentAccessToken   = $componentAccessToken;
+        $this->authorizerRefreshToken = $authorizerRefreshToken;
+        $this->authorizerAccessToken  = $authorizerAccessToken;
+        $this->cache                  = $cache;
 
         $this->setCacheKeyField('componentAppId');
         $this->setPrefix(static::AUTHORIZATION_INFO_CACHE_PREFIX);
     }
 
+    /**
+     *
+     * get authorization info
+     *
+     * @return mixed
+     */
     public function getAuthorizationInfo()
     {
+        $authorizationInfo = $this->getAuthorizationInfoFromServer();
 
+        //save refresh token
+        $this->authorizerRefreshToken->setAuthorizerAppId($authorizationInfo['authorizer_appid'])->setRefreshToken($authorizationInfo['authorizer_refresh_token']);
+        //save access token
+        $this->authorizerAccessToken->setAuthorizerAppId($authorizationInfo['authorizer_appid'])->setToken($authorizationInfo['authorizer_access_token'], $authorizationInfo['expires_in']);
+
+        return $authorizationInfo;
     }
+
+    /**
+     * get authorization info from server
+     *
+     * @return mixed
+     * @throws HttpException
+     */
 
     protected function getAuthorizationInfoFromServer()
     {
@@ -70,7 +110,13 @@ class AuthorizationInfo
             'authorization_code' => $this->authorizationCode,
         ];
 
-        $http->post(self::API_QUERY_AUTH . $this->componentAccessToken->getToken(), $params);
+        $authorizationInfo = $http->parseJSON($http->post(self::API_QUERY_AUTH . $this->componentAccessToken->getToken(), $params));
+
+        if (!isset($authorizationInfo['authorization_info']) || empty($authorizationInfo['authorization_info'])) {
+            throw new HttpException('Request Authorization info fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
+        }
+
+        return $authorizationInfo['authorization_info'];
     }
 
     /**

@@ -3,6 +3,7 @@ namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizationInfoServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeHandlerServiceProvider;
+use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerAccessTokenServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerRefreshTokenDefaultProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentAccessTokenServiceProvider;
@@ -41,6 +42,7 @@ class Application extends Container
         AuthorizeServiceProvider::class,
         AuthorizerRefreshTokenDefaultProvider::class,
         ComponentAccessTokenServiceProvider::class,
+        AuthorizerAccessTokenServiceProvider::class,
         PreAuthCodeServiceProvider::class,
         ComponentLoginPageServiceProvider::class,
         AuthorizationInfoServiceProvider::class,

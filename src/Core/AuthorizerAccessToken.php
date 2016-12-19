@@ -59,10 +59,10 @@ class AuthorizerAccessToken extends AccessToken
     protected $prefix = 'easyopenwechat.core.authorizer_access_token.';
 
 
-    public function __construct($componentAppId, $authorizerAppId, AuthorizerRefreshTokenContract $authorizerRefreshToken, ComponentAccessToken $componentAccessToken, Cache $cache = null)
+    public function __construct($componentAppId, $authorizerAppId = '', AuthorizerRefreshTokenContract $authorizerRefreshToken, ComponentAccessToken $componentAccessToken, Cache $cache = null)
     {
-        $this->componentAppId         = $this->appId = $componentAppId;
-        $this->authorizerAppId        = $authorizerAppId;
+        $this->componentAppId         = $componentAppId;
+        $this->authorizerAppId        = $this->appId = $authorizerAppId;
         $this->authorizerRefreshToken = $authorizerRefreshToken;
         $this->componentAccessToken   = $componentAccessToken;
         $this->cache                  = $cache;
@@ -120,4 +120,17 @@ class AuthorizerAccessToken extends AccessToken
         return $token;
     }
 
+    /**
+     *
+     * set authorizer App Id
+     *
+     * @param $authorizerAppId
+     *
+     * @return $this
+     */
+    public function setAuthorizerAppId($authorizerAppId)
+    {
+        $this->authorizerAppId = $this->appId = $authorizerAppId;
+        return $this;
+    }
 }

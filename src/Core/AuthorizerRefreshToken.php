@@ -24,7 +24,7 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
      *
      * @var string
      */
-    protected $appId = '';
+    protected $authorizerAppId = '';
 
     /**
      * authorizer refersh token
@@ -39,12 +39,12 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
 
     const AUTHORIZER_REFRESH_TOKEN_CACHE_PREFIX = 'easyopenwechat.core.refresh_token.';
 
-    public function __construct($appId, Cache $cache = null)
+    public function __construct($authorizerAppId = '', Cache $cache = null)
     {
-        $this->appId = $appId;
-        $this->cache = $cache;
+        $this->authorizerAppId = $authorizerAppId;
+        $this->cache           = $cache;
 
-        $this->setCacheKeyField('appId');
+        $this->setCacheKeyField('authorizerAppId');
         $this->setPrefix(static::AUTHORIZER_REFRESH_TOKEN_CACHE_PREFIX);
     }
 
@@ -72,6 +72,20 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
         $cacheKey                     = $this->getCacheKey();
         $this->authorizerRefreshToken = $authorizerRefreshToken;
         $this->getCache()->save($cacheKey, $authorizerRefreshToken);
+    }
+
+    /**
+     *
+     * set authorizer app id
+     *
+     * @param $authorizerAppId
+     *
+     * @return $this
+     */
+    public function setAuthorizerAppId($authorizerAppId)
+    {
+        $this->authorizerAppId = $authorizerAppId;
+        return $this;
     }
 
 }
