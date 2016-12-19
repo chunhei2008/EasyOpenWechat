@@ -11,6 +11,7 @@
 namespace Chunhei2008\EasyOpenWechat\Core;
 
 
+use Chunhei2008\EasyOpenWechat\Support\Log;
 use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
 use Chunhei2008\EasyOpenWechat\Traits\HttpTrait;
 use Doctrine\Common\Cache\Cache;
@@ -88,10 +89,10 @@ class ComponentAccessToken
 
             // XXX: T_T... 7200 - 1500
             $this->getCache()->save($cacheKey, $token['component_access_token'], $token['expires_in'] - 1500);
-
+            Log::debug('Get component access token from server:',$token);
             return $token['component_access_token'];
         }
-
+        Log::debug('Get component access token from cache:',$cached);
         return $cached;
     }
 

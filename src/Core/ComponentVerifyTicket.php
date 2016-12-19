@@ -11,6 +11,7 @@
 namespace Chunhei2008\EasyOpenWechat\Core;
 
 
+use Chunhei2008\EasyOpenWechat\Support\Log;
 use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
 use Doctrine\Common\Cache\Cache;
 
@@ -59,8 +60,10 @@ class ComponentVerifyTicket
      */
     public function getVerifyTicket()
     {
-        $cacheKey = $this->getCacheKey();
-        return $this->verifyTicket = $this->getCache()->fetch($cacheKey);
+        $cacheKey           = $this->getCacheKey();
+        $this->verifyTicket = $this->getCache()->fetch($cacheKey);
+        Log::debug('Get verify ticket:', $this->verifyTicket);
+        return $this->verifyTicket;
     }
 
     /**
@@ -75,6 +78,7 @@ class ComponentVerifyTicket
         $cacheKey           = $this->getCacheKey();
         $this->verifyTicket = $verifyTicket;
         $this->getCache()->save($cacheKey, $verifyTicket);
+        Log::debug('Set verify ticket:', $verifyTicket);
     }
 
 }

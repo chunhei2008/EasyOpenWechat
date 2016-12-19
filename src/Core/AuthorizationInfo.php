@@ -12,6 +12,7 @@ namespace Chunhei2008\EasyOpenWechat\Core;
 
 
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
+use Chunhei2008\EasyOpenWechat\Support\Log;
 use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
 use Chunhei2008\EasyOpenWechat\Traits\HttpTrait;
 use Doctrine\Common\Cache\Cache;
@@ -85,7 +86,7 @@ class AuthorizationInfo
     public function getAuthorizationInfo()
     {
         $authorizationInfo = $this->getAuthorizationInfoFromServer();
-
+        Log::debug('Authorization info:', $authorizationInfo);
         //save refresh token
         $this->authorizerRefreshToken->setAuthorizerAppId($authorizationInfo['authorizer_appid'])->setRefreshToken($authorizationInfo['authorizer_refresh_token']);
         //save access token

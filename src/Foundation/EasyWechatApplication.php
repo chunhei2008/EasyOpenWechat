@@ -42,18 +42,10 @@ class EasyWechatApplication extends WechatApplication
 
     private function registerBase()
     {
-        $this->registerApp();
         $this->registerServer();
         $this->registerAccessToken();
     }
 
-    /**
-     * Register app
-     */
-    private function registerApp()
-    {
-        $this['app'] = $this;
-    }
 
     /**
      * Register basic providers.
@@ -85,7 +77,7 @@ class EasyWechatApplication extends WechatApplication
         };
 
         $this['server'] = function () {
-            $server = new EasyWechatGuard($this['app']);
+            $server = new EasyWechatGuard($this);
 
             $server->debug($this['config']['debug']);
 

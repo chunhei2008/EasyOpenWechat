@@ -12,6 +12,7 @@ namespace Chunhei2008\EasyOpenWechat\Core;
 
 
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
+use Chunhei2008\EasyOpenWechat\Support\Log;
 use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
 use Doctrine\Common\Cache\Cache;
 
@@ -57,8 +58,10 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
 
     public function getRefreshToken()
     {
-        $cacheKey = $this->getCacheKey();
-        return $this->authorizerRefreshToken = $this->getCache()->fetch($cacheKey);
+        $cacheKey                     = $this->getCacheKey();
+        $this->authorizerRefreshToken = $this->getCache()->fetch($cacheKey);
+        Log::debug('Get refresh token from cache:', $this->authorizerRefreshToken);
+        return $this->authorizerRefreshToken;
     }
 
     /**
@@ -72,6 +75,7 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
         $cacheKey                     = $this->getCacheKey();
         $this->authorizerRefreshToken = $authorizerRefreshToken;
         $this->getCache()->save($cacheKey, $authorizerRefreshToken);
+        Log::debug('Set refresh token:', $authorizerRefreshToken);
     }
 
     /**

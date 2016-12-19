@@ -11,6 +11,7 @@
 namespace Chunhei2008\EasyOpenWechat\Core;
 
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
+use Chunhei2008\EasyOpenWechat\Support\Log;
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Exceptions\HttpException;
@@ -86,10 +87,10 @@ class AuthorizerAccessToken extends AccessToken
 
             // XXX: T_T... 7200 - 1500
             $this->getCache()->save($cacheKey, $token['authorizer_access_token'], $token['expires_in'] - 1500);
-
+            Log::debug('Get token:', $token);
             return $token['authorizer_access_token'];
         }
-
+        Log::debug('Get token from cache:', $cached);
         return $cached;
     }
 
