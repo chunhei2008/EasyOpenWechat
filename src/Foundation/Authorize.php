@@ -34,12 +34,15 @@ class Authorize extends Guard
      */
     protected $componentVerifyTicket;
 
-    public function __construct($token, AuthorizeHandlerContract $authorizeHandler, ComponentVerifyTicket $componentVerifyTicket, Request $request = null)
+    protected $authorizationInfo;
+
+    public function __construct($token, AuthorizeHandlerContract $authorizeHandler, ComponentVerifyTicket $componentVerifyTicket, AuthorizationInfo $authorizationInfo, Request $request = null)
     {
         parent::__construct($token, $request);
 
         $this->authorizeHandler      = $authorizeHandler;
         $this->componentVerifyTicket = $componentVerifyTicket;
+        $this->authorizationInfo     = $authorizationInfo;
     }
 
     /**
@@ -66,13 +69,13 @@ class Authorize extends Guard
                 $this->authorizeHandler->componentVerifyTicket($message, $this->componentVerifyTicket);
                 break;
             case 'authorized':
-                $this->authorizeHandler->authorized($message);
+                $this->authorizeHandler->authorized($message, $this->authorizationInfo);
                 break;
             case 'unauthorized':
                 $this->authorizeHandler->unauthorized($message);
                 break;
             case 'updateauthorized':
-                $this->authorizeHandler->updateauthorized($message);
+                $this->authorizeHandler->updateauthorized($message, $this->authorizationInfo);
                 break;
         }
     }

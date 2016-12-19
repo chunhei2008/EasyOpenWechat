@@ -1,6 +1,7 @@
 <?php
 namespace Chunhei2008\EasyOpenWechat\Contracts;
 
+use Chunhei2008\EasyOpenWechat\Core\AuthorizationInfo;
 use Chunhei2008\EasyOpenWechat\Core\ComponentVerifyTicket;
 
 
@@ -28,11 +29,13 @@ interface AuthorizeHandlerContract
     /**
      * handle authorized
      *
-     * @param $message
+     * @param                   $message
+     * @param AuthorizationInfo $authorizationInfo
      *
      * @return mixed
      */
-    public function authorized($message);
+
+    public function authorized($message, AuthorizationInfo $authorizationInfo);
 
     /**
      * handle unauthorized
@@ -47,11 +50,11 @@ interface AuthorizeHandlerContract
      *
      * handle updateauthorized
      *
-     * @param $message
+     * @param                   $message
+     * @param AuthorizationInfo $authorizationInfo
      *
      * @return mixed
      */
-
-    public function updateauthorized($message);
+    public function updateauthorized($message , AuthorizationInfo $authorizationInfo);
 
 }

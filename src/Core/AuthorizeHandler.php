@@ -19,22 +19,24 @@ class AuthorizeHandler implements AuthorizeHandlerContract
 
     public function componentVerifyTicket($message, ComponentVerifyTicket $componentVerifyTicket)
     {
-        Log::debug('Component verify ticket:', $message['ComponentVerifyTicket']);
+        Log::debug('ComponentVerifyTicket event:', $message);
         $componentVerifyTicket->setVerifyTicket($message['ComponentVerifyTicket']);
     }
 
-    public function authorized($message)
+    public function authorized($message, AuthorizationInfo $authorizationInfo)
     {
-        // TODO: Implement authorized() method.
+        Log::debug('Authorized event:', $message);
+        $authorizationInfo->setAuthorizationCode($message['AuthorizationCode'])->getAuthorizationInfo();
     }
 
     public function unauthorized($message)
     {
-        // TODO: Implement unauthorized() method.
+        Log::debug('Unauthorized event:', $message);
     }
 
-    public function updateauthorized($message)
+    public function updateauthorized($message, AuthorizationInfo $authorizationInfo)
     {
-        // TODO: Implement updateauthorized() method.
+        Log::debug('Updateauthorized event:', $message);
+        $authorizationInfo->setAuthorizationCode('$message[\'AuthorizationCode\']')->getAuthorizationInfo();
     }
 }

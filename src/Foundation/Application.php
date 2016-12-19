@@ -39,7 +39,6 @@ class Application extends Container
     protected $providers = [
         ComponentVerifyTicketServiceProvider::class,
         AuthorizeHandlerServiceProvider::class,
-        AuthorizeServiceProvider::class,
         AuthorizerRefreshTokenDefaultProvider::class,
         ComponentAccessTokenServiceProvider::class,
         AuthorizerAccessTokenServiceProvider::class,
