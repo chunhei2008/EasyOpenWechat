@@ -11,8 +11,8 @@
 namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 
-use Aws\CloudFront\Exception\Exception;
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizeHandlerContract;
+use Chunhei2008\EasyOpenWechat\Core\AuthorizationInfo;
 use Chunhei2008\EasyOpenWechat\Core\ComponentVerifyTicket;
 use EasyWeChat\Server\Guard;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,7 +64,7 @@ class Authorize extends Guard
     public function handleRequest()
     {
         $message = $this->getMessage();
-        switch ($message) {
+        switch ($message['InfoType']) {
             case 'component_verify_ticket':
                 $this->authorizeHandler->componentVerifyTicket($message, $this->componentVerifyTicket);
                 break;
@@ -97,21 +97,17 @@ class Authorize extends Guard
 
     public function serve()
     {
-        throw new Exception();
+        throw new \Exception();
     }
 
     public function setMessageHandler($callback = null, $option = self::ALL_MSG)
     {
-        throw new Exception();
+        throw new \Exception();
     }
 
-    /**
-     * Return the message listener.
-     *
-     * @return string
-     */
+
     public function getMessageHandler()
     {
-        throw new Exception();
+        throw new \Exception();
     }
 }

@@ -90,7 +90,7 @@ class AuthorizerAccessToken extends AccessToken
             Log::debug('Get token:', $token);
             return $token['authorizer_access_token'];
         }
-        Log::debug('Get token from cache:', $cached);
+        Log::debug('Get token from cache:', [$cached]);
         return $cached;
     }
 

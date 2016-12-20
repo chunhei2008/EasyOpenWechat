@@ -62,7 +62,7 @@ class ComponentVerifyTicket
     {
         $cacheKey           = $this->getCacheKey();
         $this->verifyTicket = $this->getCache()->fetch($cacheKey);
-        Log::debug('Get verify ticket:', $this->verifyTicket);
+        Log::debug('Get verify ticket:', [$this->verifyTicket]);
         return $this->verifyTicket;
     }
 
@@ -78,7 +78,7 @@ class ComponentVerifyTicket
         $cacheKey           = $this->getCacheKey();
         $this->verifyTicket = $verifyTicket;
         $this->getCache()->save($cacheKey, $verifyTicket);
-        Log::debug('Set verify ticket:', $verifyTicket);
+        Log::debug('Set verify ticket:', [$verifyTicket]);
     }
 
 }

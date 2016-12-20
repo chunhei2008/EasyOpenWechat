@@ -59,7 +59,7 @@ class ComponentAccessToken
 
     protected $componentVerifyTicket;
 
-    public function __construct($componentAppId, $componentAppSecret,ComponentVerifyTicket $componentVerifyTicket, Cache $cache = null)
+    public function __construct($componentAppId, $componentAppSecret, ComponentVerifyTicket $componentVerifyTicket, Cache $cache = null)
     {
         $this->componentAppId        = $componentAppId;
         $this->componentAppSecret    = $componentAppSecret;
@@ -89,10 +89,10 @@ class ComponentAccessToken
 
             // XXX: T_T... 7200 - 1500
             $this->getCache()->save($cacheKey, $token['component_access_token'], $token['expires_in'] - 1500);
-            Log::debug('Get component access token from server:',$token);
+            Log::debug('Get component access token from server:', $token);
             return $token['component_access_token'];
         }
-        Log::debug('Get component access token from cache:',$cached);
+        Log::debug('Get component access token from cache:', [$cached]);
         return $cached;
     }
 

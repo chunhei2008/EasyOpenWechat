@@ -60,7 +60,7 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
     {
         $cacheKey                     = $this->getCacheKey();
         $this->authorizerRefreshToken = $this->getCache()->fetch($cacheKey);
-        Log::debug('Get refresh token from cache:', $this->authorizerRefreshToken);
+        Log::debug('Get refresh token from cache:', [$this->authorizerRefreshToken]);
         return $this->authorizerRefreshToken;
     }
 
@@ -75,7 +75,7 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
         $cacheKey                     = $this->getCacheKey();
         $this->authorizerRefreshToken = $authorizerRefreshToken;
         $this->getCache()->save($cacheKey, $authorizerRefreshToken);
-        Log::debug('Set refresh token:', $authorizerRefreshToken);
+        Log::debug('Set refresh token:', [$authorizerRefreshToken]);
     }
 
     /**

@@ -52,7 +52,7 @@ class PreAuthCode
     public function getPreAuthCode()
     {
         $authCode = $this->getPreAuthCodeFromServer();
-        Log::debug('Pre auth code:', $authCode['pre_auth_code']);
+        Log::debug('Pre auth code:', $authCode);
         return $authCode['pre_auth_code'];
     }
 
