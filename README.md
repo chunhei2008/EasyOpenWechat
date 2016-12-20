@@ -31,7 +31,6 @@ $config = [
         'file'  => '/tmp/easyopenwechat.log',
     ],
 ];
-
 ```
 
 ### 生成授权页面URI
@@ -77,6 +76,7 @@ echo "<a href=\"$page\">auth</a>";
 ### 授权回调页面
 
 > 授权流程完成后，授权页会自动跳转进入回调URI，并在URL参数中返回授权码和过期时间(redirect_url?auth_code=xxx&expires_in=600);在得到授权码后，第三方平台方可以使用授权码换取授权公众号的接口调用凭据（authorizer_access_token，也简称为令牌），再通过该接口调用凭据，按照公众号开发者文档（mp.weixin.qq.com/wiki）的说明，去调用公众号相关API（能调用哪些API，取决于用户将哪些权限集授权给了第三方平台方，也取决于公众号自身拥有哪些接口权限），使用JS SDK等能力。具体请见【公众号第三方平台的接口说明】
+
 ```
 <?php
 /**
@@ -115,13 +115,12 @@ $auth_info = $app->authorization->setAuthorizationCode($auth_code)->getAuthoriza
 
 
 var_dump($auth_info);
-
-
 ```
 
 ### 授权事件处理
 
 > 授权过程的所有授权事件响应，包括全网发布监测响应
+
 ```
 <?php
 
@@ -147,7 +146,6 @@ $config = [
 $app = new \Chunhei2008\EasyOpenWechat\Foundation\Application($config);
 
 $app->auth->handle()->send();
-
 ```
 
 ### 公众号消息与事件处理
@@ -197,7 +195,6 @@ $response = $wechat->server->setMessageHandler(function ($message) {
 })->serve();
 
 $response->send();
-
 ```
 
 ## 自我实现
@@ -207,6 +204,7 @@ $response->send();
 ### authorizer_refresh_token 存储与获取
 
 #### 默认的实现
+
 ```
 <?php
 /**
@@ -257,9 +255,11 @@ class AuthorizerRefreshToken extends AbstractAuthorizerRefreshToken
 
 }
 ```
+
 ##### 自我实现
 
 1. 存储数据库
+
 ```
 <?php
 /**
@@ -310,6 +310,7 @@ class AuthorizerRefreshToken extends AbstractAuthorizerRefreshToken
 ### 授权事件
 
 > 实现AuthorizeHandlerContract契约
+
 ```
 <?php
 namespace Chunhei2008\EasyOpenWechat\Contracts;
