@@ -10,44 +10,10 @@
 
 namespace Chunhei2008\EasyOpenWechat\Core;
 
-
-use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
 use Chunhei2008\EasyOpenWechat\Support\Log;
-use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
-use Doctrine\Common\Cache\Cache;
 
-class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
+class AuthorizerRefreshToken extends AbstractAuthorizerRefreshToken
 {
-    use CacheTrait;
-
-    /**
-     * app id
-     *
-     * @var string
-     */
-    protected $authorizerAppId = '';
-
-    /**
-     * authorizer refersh token
-     *
-     * @var string
-     */
-    protected $authorizerRefreshToken = '';
-
-    /**
-     *  cache key prefix
-     */
-
-    const AUTHORIZER_REFRESH_TOKEN_CACHE_PREFIX = 'easyopenwechat.core.refresh_token.';
-
-    public function __construct($authorizerAppId = '', Cache $cache = null)
-    {
-        $this->authorizerAppId = $authorizerAppId;
-        $this->cache           = $cache;
-
-        $this->setCacheKeyField('authorizerAppId');
-        $this->setPrefix(static::AUTHORIZER_REFRESH_TOKEN_CACHE_PREFIX);
-    }
 
     /**
      *
@@ -78,18 +44,5 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
         Log::debug('Set refresh token:', [$authorizerRefreshToken]);
     }
 
-    /**
-     *
-     * set authorizer app id
-     *
-     * @param $authorizerAppId
-     *
-     * @return $this
-     */
-    public function setAuthorizerAppId($authorizerAppId)
-    {
-        $this->authorizerAppId = $authorizerAppId;
-        return $this;
-    }
 
 }

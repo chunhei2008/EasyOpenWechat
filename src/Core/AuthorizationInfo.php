@@ -65,7 +65,7 @@ class AuthorizationInfo
 
     protected $authorizerAccessToken;
 
-    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, AuthorizerAccessToken $authorizerAccessToken, AuthorizerRefreshTokenContract $authorizerRefreshToken, Cache $cache = null)
+    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, AuthorizerAccessToken $authorizerAccessToken, AbstractAuthorizerRefreshToken $authorizerRefreshToken, Cache $cache = null)
     {
         $this->componentAppId         = $componentAppId;
         $this->componentAccessToken   = $componentAccessToken;
@@ -129,6 +129,7 @@ class AuthorizationInfo
      */
     public function setAuthorizationCode($authorizationCode)
     {
+        Log::debug('Set authorization code:', [$authorizationCode]);
         $this->authorizationCode = $authorizationCode;
         return $this;
     }

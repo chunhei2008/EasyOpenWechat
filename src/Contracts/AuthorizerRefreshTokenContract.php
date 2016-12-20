@@ -27,4 +27,12 @@ interface AuthorizerRefreshTokenContract
      */
 
     public function setRefreshToken($authorizerRefreshToken);
+
+    /**
+     * @param $authorizerAppId
+     *
+     * @return mixed
+     */
+
+    public function setAuthorizerAppId($authorizerAppId);
 }
