@@ -37,6 +37,6 @@ class AuthorizeHandler implements AuthorizeHandlerContract
     public function updateauthorized($message, AuthorizationInfo $authorizationInfo)
     {
         Log::debug('Updateauthorized event:', $message);
-        $authorizationInfo->setAuthorizationCode('$message[\'AuthorizationCode\']')->getAuthorizationInfo();
+        $authorizationInfo->setAuthorizationCode($message['AuthorizationCode'])->getAuthorizationInfo();
     }
 }
