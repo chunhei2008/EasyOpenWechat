@@ -11,6 +11,7 @@
 namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 
+use Chunhei2008\EasyOpenWechat\Core\AuthorizationInfo;
 use Chunhei2008\EasyOpenWechat\Core\AuthorizerAccessToken;
 use Chunhei2008\EasyOpenWechat\Core\AuthorizerRefreshToken;
 use Chunhei2008\EasyOpenWechat\Core\ComponentAccessToken;
@@ -27,11 +28,12 @@ class EasyWechatApplication extends WechatApplication
      * @param AuthorizerRefreshToken $authorizerRefreshToken
      * @param ComponentAccessToken   $componentAccessToken
      */
-    public function __construct($config, AuthorizerRefreshToken $authorizerRefreshToken, ComponentAccessToken $componentAccessToken)
+    public function __construct($config, AuthorizerRefreshToken $authorizerRefreshToken, ComponentAccessToken $componentAccessToken, AuthorizationInfo $authorizationInfo)
     {
         parent::__construct($config);
         $this['authorizer_refresh_token'] = $authorizerRefreshToken;
         $this['component_access_token']   = $componentAccessToken;
+        $this['authorization']            = $authorizationInfo;
 
         $this->registerBase();
     }

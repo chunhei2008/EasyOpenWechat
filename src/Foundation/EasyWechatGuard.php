@@ -91,8 +91,11 @@ class EasyWechatGuard extends Guard
                 }
 
                 if (strpos($message['Content'], static::QUERY_AUTH_CODE_PREFIX) === 0) {
-                    list($foo, $query_auth_code) = explode(':', $message['Content']);
-                    $this->app->staff->message($query_auth_code . '_from_api')->to($message['FromUserName'])->send();
+                    list($foo, $queryAuthCode) = explode(':', $message['Content']);
+
+                    $this->authorization->setAuthorizationCode($queryAuthCode)->getAuthorizationInfo();
+
+                    $this->app->staff->message($queryAuthCode . '_from_api')->to($message['FromUserName'])->send();
                     return '';
                 }
                 break;
