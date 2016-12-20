@@ -111,7 +111,7 @@ class AuthorizerAccessToken extends AccessToken
 
         $http = $this->getHttp();
 
-        $token = $http->parseJSON('json', [static::API_AUTHORIZER_TOKEN . $this->componentAccessToken->getToken(), $params]);
+        $token = $http->parseJSON($http->json(self::API_AUTHORIZER_TOKEN . $this->componentAccessToken->getToken(), $params));
 
         if (empty($token['authorizer_access_token'])) {
             throw new HttpException('Request AccessToken fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));

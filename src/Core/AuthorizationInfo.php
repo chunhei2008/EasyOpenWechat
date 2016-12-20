@@ -111,7 +111,7 @@ class AuthorizationInfo
             'authorization_code' => $this->authorizationCode,
         ];
 
-        $authorizationInfo = $http->parseJSON('json', [self::API_QUERY_AUTH . $this->componentAccessToken->getToken(), $params]);
+        $authorizationInfo = $http->parseJSON($http->json(self::API_QUERY_AUTH . $this->componentAccessToken->getToken(), $params));
 
         if (!isset($authorizationInfo['authorization_info']) || empty($authorizationInfo['authorization_info'])) {
             throw new HttpException('Request Authorization info fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
