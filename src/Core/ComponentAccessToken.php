@@ -112,7 +112,7 @@ class ComponentAccessToken
 
         $http = $this->getHttp();
 
-        $token = $http->parseJSON($http->post(self::API_COMPONENT_TOKEN, $params));
+        $token = $http->parseJSON('json', [self::API_COMPONENT_TOKEN, $params]);
 
         if (empty($token['component_access_token'])) {
             throw new HttpException('Request Component AccessToken fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
