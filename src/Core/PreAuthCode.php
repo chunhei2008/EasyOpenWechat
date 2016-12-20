@@ -66,12 +66,14 @@ class PreAuthCode
     protected function getPreAuthCodeFromServer()
     {
         $params = [
-            'component_appid' => $this->componentAppId,
+            'json' => [
+                'component_appid' => $this->componentAppId,
+            ],
         ];
 
         $http = $this->getHttp();
 
-        $authCode = $http->parseJSON($http->json(self::API_CREATE_PREAUTHCODE . $this->componentAccessToken->getToken(), $params));
+        $authCode = $http->parseJSON($http->request(self::API_CREATE_PREAUTHCODE . $this->componentAccessToken->getToken(), 'POST', $params));
 
         if (empty($authCode['pre_auth_code'])) {
             throw new HttpException('Request Per Auth Code fail. response: ' . json_encode($authCode, JSON_UNESCAPED_UNICODE));

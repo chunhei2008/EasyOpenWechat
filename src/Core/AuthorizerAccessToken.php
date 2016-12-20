@@ -104,14 +104,16 @@ class AuthorizerAccessToken extends AccessToken
     public function getTokenFromServer()
     {
         $params = [
-            'component_appid'          => $this->componentAppId,
-            'authorizer_appid'         => $this->authorizerAppId,
-            'authorizer_refresh_token' => $this->authorizerRefreshToken->getRefreshToken(),
+            'json' => [
+                'component_appid'          => $this->componentAppId,
+                'authorizer_appid'         => $this->authorizerAppId,
+                'authorizer_refresh_token' => $this->authorizerRefreshToken->getRefreshToken(),
+            ],
         ];
 
         $http = $this->getHttp();
 
-        $token = $http->parseJSON($http->json(self::API_AUTHORIZER_TOKEN . $this->componentAccessToken->getToken(), $params));
+        $token = $http->parseJSON($http->request(self::API_AUTHORIZER_TOKEN . $this->componentAccessToken->getToken(), 'POST', $params));
 
         if (empty($token['authorizer_access_token'])) {
             throw new HttpException('Request AccessToken fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
