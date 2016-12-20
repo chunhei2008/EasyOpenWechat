@@ -1,12 +1,19 @@
 {
   "name": "chunhei2008/easy-open-wechat",
+  "description": "微信公众号第三方平台SDK",
+  "keywords": [
+    "open-wechat-sdk",
+    "wechat",
+    "weixin",
+    "weixin-sdk",
+    "sdk"
+  ],
   "authors": [
     {
       "name": "chunhei2008",
       "email": "chunhei2008@qq.com"
     }
   ],
-  "description": "easy open wechat",
   "license": "MIT",
   "require": {
     "overtrue/wechat": "^3.0"

@@ -33,7 +33,12 @@ class Authorize extends Guard
      * @var ComponentVerifyTicket
      */
     protected $componentVerifyTicket;
-
+    /**
+     *
+     * authorization info
+     *
+     * @var AuthorizationInfo
+     */
     protected $authorizationInfo;
 
     public function __construct($token, AuthorizeHandlerContract $authorizeHandler, ComponentVerifyTicket $componentVerifyTicket, AuthorizationInfo $authorizationInfo, Request $request = null)
@@ -61,6 +66,11 @@ class Authorize extends Guard
         return new Response(static::SUCCESS_EMPTY_RESPONSE);
     }
 
+    /**
+     *
+     * handle publish event
+     *
+     */
     public function handleRequest()
     {
         $message = $this->getMessage();

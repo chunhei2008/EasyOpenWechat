@@ -75,7 +75,7 @@ class PreAuthCode
 
         $authCode = $http->parseJSON($http->request(self::API_CREATE_PREAUTHCODE . $this->componentAccessToken->getToken(), 'POST', $params));
 
-        if (empty($authCode['pre_auth_code'])) {
+        if (!isset($authCode['pre_auth_code']) || empty($authCode['pre_auth_code'])) {
             throw new HttpException('Request Per Auth Code fail. response: ' . json_encode($authCode, JSON_UNESCAPED_UNICODE));
         }
 

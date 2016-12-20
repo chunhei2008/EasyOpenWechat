@@ -60,9 +60,21 @@ abstract class AbstractAuthorizerRefreshToken
         return $this;
     }
 
+    /**
+     * get refresh token
+     *
+     * @return mixed
+     */
     abstract public function getRefreshToken();
 
-
+    /**
+     *
+     * set refresh token
+     *
+     * @param $authorizerRefreshToken
+     *
+     * @return mixed
+     */
     abstract public function setRefreshToken($authorizerRefreshToken);
 
 }
