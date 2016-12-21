@@ -219,47 +219,101 @@ $response->send();
 
 namespace Chunhei2008\EasyOpenWechat\Core;
 
+use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
 use Chunhei2008\EasyOpenWechat\Support\Log;
+use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
+use Doctrine\Common\Cache\Cache;
 
-class AuthorizerRefreshToken extends AbstractAuthorizerRefreshToken
+class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
 {
+
+    use CacheTrait;
+
+    /**
+     * app id
+     *
+     * @var string
+     */
+    protected $authorizerAppId = '';
+
+
+    /**
+     *  cache key prefix
+     */
+
+    const AUTHORIZER_REFRESH_TOKEN_CACHE_PREFIX = 'easyopenwechat.core.refresh_token.';
+
+    public function __construct(Cache $cache = null)
+    {
+        $this->cache = $cache;
+
+        $this->setCacheKeyField('authorizerAppId');
+        $this->setPrefix(static::AUTHORIZER_REFRESH_TOKEN_CACHE_PREFIX);
+    }
 
     /**
      *
      * get refresh token
      *
-     * @return string
+     * @param $authorizerAppId
+     *
+     * @return mixed|string
      */
-
-    public function getRefreshToken()
+    public function getRefreshToken($authorizerAppId)
     {
-        $cacheKey                     = $this->getCacheKey();
-        $this->authorizerRefreshToken = $this->getCache()->fetch($cacheKey);
-        Log::debug('Get refresh token from cache:', [$this->authorizerRefreshToken]);
-        return $this->authorizerRefreshToken;
+        $this->setAuthorizerAppId($authorizerAppId);
+        $cacheKey               = $this->getCacheKey();
+        $authorizerRefreshToken = $this->getCache()->fetch($cacheKey);
+        Log::debug('Get refresh token from cache:', [$authorizerAppId, $authorizerRefreshToken]);
+        return $authorizerRefreshToken;
     }
 
     /**
      * set refresh token
      *
+     * @param $authorizerAppId
      * @param $authorizerRefreshToken
      */
 
-    public function setRefreshToken($authorizerRefreshToken)
+    public function setRefreshToken($authorizerAppId, $authorizerRefreshToken)
     {
-        $cacheKey                     = $this->getCacheKey();
-        $this->authorizerRefreshToken = $authorizerRefreshToken;
+        $this->setAuthorizerAppId($authorizerAppId);
+        $cacheKey = $this->getCacheKey();
         $this->getCache()->save($cacheKey, $authorizerRefreshToken);
-        Log::debug('Set refresh token:', [$authorizerRefreshToken]);
+        Log::debug('Set refresh token:', [$authorizerAppId, $authorizerRefreshToken]);
     }
 
+    /**
+     *
+     * remove refresh token
+     *
+     * @param $authorizerAppId
+     */
+    public function removeRefreshToken($authorizerAppId)
+    {
+        $this->setAuthorizerAppId($authorizerAppId);
+        $cacheKey = $this->getCacheKey();
+        $this->getCache()->delete($cacheKey);
+        Log::debug('Remove refresh token:', [$authorizerAppId]);
+    }
+
+    /**
+     * set authorizer app id
+     *
+     * @param $authorizerAppId
+     */
+
+    private function setAuthorizerAppId($authorizerAppId)
+    {
+        $this->authorizerAppId = $authorizerAppId;
+    }
 
 }
 ```
 
-##### 自我实现
+##### 自定义refresh
 
-1. 存储数据库
+1. 实现存储数据库
 
 ```
 <?php
@@ -274,43 +328,94 @@ class AuthorizerRefreshToken extends AbstractAuthorizerRefreshToken
 
 namespace Chunhei2008\EasyOpenWechat\Core;
 
+use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
 use Chunhei2008\EasyOpenWechat\Support\Log;
+use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
+use Doctrine\Common\Cache\Cache;
 
-class AuthorizerRefreshToken extends AbstractAuthorizerRefreshToken
+class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
 {
+
+  
 
     /**
      *
      * get refresh token
      *
-     * @return string
+     * @param $authorizerAppId
+     *
+     * @return mixed|string
      */
-
-    public function getRefreshToken()
+    public function getRefreshToken($authorizerAppId)
     {
-       
-        // select from db
-        
-        return $this->authorizerRefreshToken;
+        // get refresh token by app id from db
+        Log::debug('Get refresh token from cache:', [$authorizerAppId, $authorizerRefreshToken]);
+        return $authorizerRefreshToken;
     }
 
     /**
      * set refresh token
      *
+     * @param $authorizerAppId
      * @param $authorizerRefreshToken
      */
 
-    public function setRefreshToken($authorizerRefreshToken)
+    public function setRefreshToken($authorizerAppId, $authorizerRefreshToken)
     {
-        // insert or update db
+        // save refresh token to db by app id
+        Log::debug('Set refresh token:', [$authorizerAppId, $authorizerRefreshToken]);
+    }
+
+    /**
+     *
+     * remove refresh token
+     *
+     * @param $authorizerAppId
+     */
+    public function removeRefreshToken($authorizerAppId)
+    {
+        // delete refresh token from db by app id
+        Log::debug('Remove refresh token:', [$authorizerAppId]);
     }
 
 }
 ```
 
+2. 服务提供者绑定到容器
+
+```
+<?php
+/**
+ * AuthorizerRefreshTokenDefaultProvider.php
+ *
+ * Author: wangyi <chunhei2008@qq.com>
+ *
+ * Date:   2016/12/17 11:50
+ * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
+ */
+
+namespace Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders;
+
+use Chunhei2008\EasyOpenWechat\Core\AuthorizerRefreshToken;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+
+class AuthorizerRefreshTokenDefaultProvider implements ServiceProviderInterface
+{
+    public function register(Container $pimple)
+    {
+        $pimple['authorizer_refresh_token'] = function ($pimple) {
+            return new AuthorizerRefreshToken(
+                $pimple['cache']
+            );
+        };
+    }
+}
+```
+
 ### 授权事件
 
-> 实现AuthorizeHandlerContract契约
+1. 实现AuthorizeHandlerContract契约
 
 ```
 <?php
@@ -359,7 +464,7 @@ interface AuthorizeHandlerContract
      *
      * @return mixed
      */
-    public function unauthorized($message);
+    public function unauthorized($message, AuthorizerRefreshTokenContract $authorizerRefreshToken);
 
     /**
      *
@@ -371,6 +476,39 @@ interface AuthorizeHandlerContract
      * @return mixed
      */
     public function updateauthorized($message , AuthorizationInfo $authorizationInfo);
+
+}
+```
+
+2. 服务提供者绑定到容器
+
+```
+
+<?php
+/**
+ * AuthorizeHandlerServiceProvider.php
+ *
+ * Author: wangyi <chunhei2008@qq.com>
+ *
+ * Date:   2016/12/17 16:34
+ * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
+ */
+
+namespace Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders;
+
+
+use Chunhei2008\EasyOpenWechat\Core\AuthorizeHandler;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+
+class AuthorizeHandlerServiceProvider implements ServiceProviderInterface
+{
+    public function register(Container $pimple)
+    {
+        $pimple['authorize_handler'] = function ($pimple) {
+            return new AuthorizeHandler();
+        };
+    }
 
 }
 ```
