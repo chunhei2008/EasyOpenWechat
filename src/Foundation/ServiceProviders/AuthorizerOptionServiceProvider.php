@@ -22,7 +22,7 @@ class AuthorizerOptionServiceProvider implements ServiceProviderInterface
     {
         $pimple['option'] = function ($pimple) {
             return new AuthorizerOption(
-                $pimple['component_app_id'],
+                $pimple['config']['component_app_id'],
                 $pimple['component_access_token']
             );
         };

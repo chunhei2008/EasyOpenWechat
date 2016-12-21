@@ -21,7 +21,7 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
     {
         $pimple['authorization'] = function ($pimple) {
             return new Authorization(
-                $pimple['component_app_id'],
+                $pimple['config']['component_app_id'],
                 $pimple['component_access_token'],
                 $pimple['authorizer_access_token'],
                 $pimple['authorizer_refresh_token'],
