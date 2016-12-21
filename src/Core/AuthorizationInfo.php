@@ -65,12 +65,20 @@ class AuthorizationInfo
 
     protected $authorizerAccessToken;
 
-    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, AuthorizerAccessToken $authorizerAccessToken, AuthorizerRefreshTokenContract $authorizerRefreshToken, Cache $cache = null)
+    /**
+     * authorization
+     *
+     * @var Authorization
+     */
+    protected $authorization;
+
+    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, AuthorizerAccessToken $authorizerAccessToken, AuthorizerRefreshTokenContract $authorizerRefreshToken, Authorization $authorization, Cache $cache = null)
     {
         $this->componentAppId         = $componentAppId;
         $this->componentAccessToken   = $componentAccessToken;
         $this->authorizerRefreshToken = $authorizerRefreshToken;
         $this->authorizerAccessToken  = $authorizerAccessToken;
+        $this->authorization          = $authorization;
         $this->cache                  = $cache;
 
         $this->setCacheKeyField('componentAppId');
@@ -92,7 +100,7 @@ class AuthorizationInfo
         //save access token
         $this->authorizerAccessToken->setAuthorizerAppId($authorizationInfo['authorizer_appid'])->setToken($authorizationInfo['authorizer_access_token'], $authorizationInfo['expires_in']);
 
-        return $authorizationInfo;
+        return $this->authorization->setAuthorizationInfo($authorizationInfo);
     }
 
     /**

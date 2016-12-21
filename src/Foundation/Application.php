@@ -5,6 +5,7 @@ use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizationInfoServ
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeHandlerServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerAccessTokenServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerRefreshTokenDefaultProvider;
+use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentAccessTokenServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\ComponentLoginPageServiceProvider;
@@ -37,6 +38,8 @@ class Application extends Container
      * @var array
      */
     protected $providers = [
+        AuthorizerServiceProvider::class,
+        AuthorizationInfoServiceProvider::class,
         ComponentVerifyTicketServiceProvider::class,
         AuthorizeHandlerServiceProvider::class,
         AuthorizerRefreshTokenDefaultProvider::class,

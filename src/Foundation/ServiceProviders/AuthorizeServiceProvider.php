@@ -38,7 +38,7 @@ class AuthorizeServiceProvider implements ServiceProviderInterface
                 $pimple['config']['token'],
                 $pimple['authorize_handler'],
                 $pimple['component_verify_ticket'],
-                $pimple['authorization'],
+                $pimple['authorization_info'],
                 $pimple['authorizer_refresh_token'],
                 $pimple['request']
             );

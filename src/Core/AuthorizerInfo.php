@@ -11,8 +11,14 @@
 namespace Chunhei2008\EasyOpenWechat\Core;
 
 
+use Chunhei2008\EasyOpenWechat\Traits\HttpTrait;
+use EasyWeChat\Core\Exceptions\HttpException;
+
 class AuthorizerInfo
 {
+
+    use HttpTrait;
+
     /**
      * api
      */
@@ -23,14 +29,6 @@ class AuthorizerInfo
      */
     protected $componentAppId;
 
-    /**
-     *
-     * authorizer app id
-     *
-     * @var
-     */
-
-    protected $authorizerAppId;
 
     /**
      * component access token
@@ -40,25 +38,42 @@ class AuthorizerInfo
 
     protected $componentAccessToken;
 
-    public function __construct($componentAppId, $authorizerAppId, ComponentAccessToken $componentAccessToken)
+    /**
+     * 公众账号基本信息
+     * @var
+     */
+    protected $authorizer;
+
+    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, Authorizer $authorizer)
     {
         $this->componentAppId       = $componentAppId;
-        $this->authorizerAppId      = $authorizerAppId;
         $this->componentAccessToken = $componentAccessToken;
-
+        $this->authorizer           = $authorizer;
     }
 
-    public function getAuthorizerInfo()
+    /**
+     *
+     * @param $authorizerAppId
+     *
+     * @return $this
+     */
+    public function getAuthorizerInfo($authorizerAppId)
     {
-        $this->getAuthorizerInfoFromServer();
+        $authorizer = $this->getAuthorizerInfoFromServer($authorizerAppId);
+        return $this->authorizer->setBaseInfo($authorizer);
     }
 
-    protected function getAuthorizerInfoFromServer()
+    /**
+     * get from server
+     * @return mixed
+     * @throws HttpException
+     */
+    protected function getAuthorizerInfoFromServer($authorizerAppId)
     {
         $params = [
             'json' => [
                 'component_appid'  => $this->componentAppId,
-                'authorizer_appid' => $this->authorizerAppId,
+                'authorizer_appid' => $authorizerAppId,
             ],
         ];
 
@@ -70,7 +85,7 @@ class AuthorizerInfo
             throw new HttpException('Request Authorizer Info fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
         }
 
-        return $authorizerInfo;
+        return $authorizerInfo['authorizer_info'];
 
     }
 
