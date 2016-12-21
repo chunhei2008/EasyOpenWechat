@@ -1,10 +1,10 @@
 <?php
 /**
- * AuthorizationInfoServiceProvider.php
+ * AuthorizationServiceProvider.php
  *
  * Author: wangyi <chunhei2008@qq.com>
  *
- * Date:   2016/12/18 00:38
+ * Date:   2016/12/21 15:51
  * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
  */
 
@@ -21,15 +21,7 @@ class AuthorizationInfoServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['authorization_info'] = function ($pimple) {
-            return new AuthorizationInfo(
-                $pimple['config']['component_app_id'],
-                $pimple['component_access_token'],
-                $pimple['authorizer_access_token'],
-                $pimple['authorizer_refresh_token'],
-                $pimple['authorization'],
-                $pimple['cache']
-            );
+            return new AuthorizationInfo();
         };
     }
-
 }

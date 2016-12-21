@@ -4,7 +4,7 @@
  *
  * Author: wangyi <chunhei2008@qq.com>
  *
- * Date:   2016/12/21 15:51
+ * Date:   2016/12/21 16:09
  * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
  */
 
@@ -17,11 +17,18 @@ use Pimple\ServiceProviderInterface;
 
 class AuthorizationServiceProvider implements ServiceProviderInterface
 {
-
     public function register(Container $pimple)
     {
         $pimple['authorization'] = function ($pimple) {
-            return new Authorization();
+            return new Authorization(
+                $pimple['component_app_id'],
+                $pimple['component_access_token'],
+                $pimple['authorizer_access_token'],
+                $pimple['authorizer_refresh_token'],
+                $pimple['authorization_info'],
+                $pimple['cache']
+            );
         };
     }
+
 }

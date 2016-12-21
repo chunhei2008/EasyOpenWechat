@@ -24,10 +24,10 @@ class AuthorizeHandler implements AuthorizeHandlerContract
         $componentVerifyTicket->setVerifyTicket($message['ComponentVerifyTicket']);
     }
 
-    public function authorized($message, AuthorizationInfo $authorizationInfo)
+    public function authorized($message, Authorization $authorization)
     {
         Log::debug('Authorized event:', $message);
-        $authorizationInfo->setAuthorizationCode($message['AuthorizationCode'])->getAuthorizationInfo();
+        $authorization->setAuthorizationCode($message['AuthorizationCode'])->getAuthorizationInfo();
     }
 
     public function unauthorized($message, AuthorizerRefreshTokenContract $authorizerRefreshToken)
@@ -36,9 +36,9 @@ class AuthorizeHandler implements AuthorizeHandlerContract
         $authorizerRefreshToken->removeRefreshToken($message['AuthorizerAppid']);
     }
 
-    public function updateauthorized($message, AuthorizationInfo $authorizationInfo)
+    public function updateauthorized($message, Authorization $authorization)
     {
         Log::debug('Updateauthorized event:', $message);
-        $authorizationInfo->setAuthorizationCode($message['AuthorizationCode'])->getAuthorizationInfo();
+        $authorization->setAuthorizationCode($message['AuthorizationCode'])->getAuthorizationInfo();
     }
 }

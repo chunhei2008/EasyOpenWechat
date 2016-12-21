@@ -20,7 +20,13 @@ class AuthorizerServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['authorizer'] = function ($pimple) {
-            return new Authorizer();
+            return new Authorizer(
+                $pimple['config']['component_app_id'],
+                $pimple['config']['app_id'],
+                $pimple['component_access_token'],
+                $pimple['authorizer_info']
+            );
         };
+
     }
 }

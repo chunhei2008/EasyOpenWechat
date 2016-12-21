@@ -34,13 +34,12 @@ class Authorize extends Guard
      * @var ComponentVerifyTicket
      */
     protected $componentVerifyTicket;
+
     /**
-     *
-     * authorization info
-     *
-     * @var AuthorizationInfo
+     * authorization
+     * @var Authorization
      */
-    protected $authorizationInfo;
+    protected $authorization;
 
     /**
      *
@@ -50,13 +49,13 @@ class Authorize extends Guard
      */
     protected $authorizerRefreshToken;
 
-    public function __construct($token, AuthorizeHandlerContract $authorizeHandler, ComponentVerifyTicket $componentVerifyTicket, AuthorizationInfo $authorizationInfo, AuthorizerRefreshTokenContract $authorizerRefreshToken, Request $request = null)
+    public function __construct($token, AuthorizeHandlerContract $authorizeHandler, ComponentVerifyTicket $componentVerifyTicket, Authorization $authorization, AuthorizerRefreshTokenContract $authorizerRefreshToken, Request $request = null)
     {
         parent::__construct($token, $request);
 
         $this->authorizeHandler       = $authorizeHandler;
         $this->componentVerifyTicket  = $componentVerifyTicket;
-        $this->authorizationInfo      = $authorizationInfo;
+        $this->authorization      = $authorization;
         $this->authorizerRefreshToken = $authorizerRefreshToken;
     }
 
@@ -89,13 +88,13 @@ class Authorize extends Guard
                 $this->authorizeHandler->componentVerifyTicket($message, $this->componentVerifyTicket);
                 break;
             case 'authorized':
-                $this->authorizeHandler->authorized($message, $this->authorizationInfo);
+                $this->authorizeHandler->authorized($message, $this->authorization);
                 break;
             case 'unauthorized':
                 $this->authorizeHandler->unauthorized($message, $this->authorizerRefreshToken);
                 break;
             case 'updateauthorized':
-                $this->authorizeHandler->updateauthorized($message, $this->authorizationInfo);
+                $this->authorizeHandler->updateauthorized($message, $this->authorization);
                 break;
         }
     }

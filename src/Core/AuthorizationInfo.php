@@ -1,146 +1,48 @@
 <?php
 /**
- * AuthorizationInfo.php
+ * Authorization.php
  *
  * Author: wangyi <chunhei2008@qq.com>
  *
- * Date:   2016/12/16 00:17
+ * Date:   2016/12/21 15:48
  * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
  */
 
 namespace Chunhei2008\EasyOpenWechat\Core;
 
 
-use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
-use Chunhei2008\EasyOpenWechat\Support\Log;
-use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
-use Chunhei2008\EasyOpenWechat\Traits\HttpTrait;
-use Doctrine\Common\Cache\Cache;
-use EasyWeChat\Core\Exceptions\HttpException;
-
 class AuthorizationInfo
 {
-    use HttpTrait, CacheTrait;
     /**
-     * api
+     *
+     * 公众号授权信息
+     * @var array
      */
-    const API_QUERY_AUTH = 'https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=';
-
-    const AUTHORIZATION_INFO_CACHE_PREFIX = 'easyopenwechat.core.authorization_info.';
+    protected $authorizationInfo = [];
 
     /**
-     * component app id
-     * @var
-     */
-
-    protected $componentAppId;
-
-    /**
-     * component access token
+     * 设置公众号授权信心
      *
-     * @var ComponentAccessToken
-     */
-    protected $componentAccessToken;
-    /**
-     * authorization code
-     *
-     * @var
-     */
-    protected $authorizationCode;
-    /**
-     *
-     * authorizer refresh token
-     *
-     * @var AuthorizerRefreshTokenContract
-     */
-    protected $authorizerRefreshToken;
-
-
-    /**
-     *
-     * authorizer access token
-     *
-     * @var AuthorizerAccessToken
-     */
-
-    protected $authorizerAccessToken;
-
-    /**
-     * authorization
-     *
-     * @var Authorization
-     */
-    protected $authorization;
-
-    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, AuthorizerAccessToken $authorizerAccessToken, AuthorizerRefreshTokenContract $authorizerRefreshToken, Authorization $authorization, Cache $cache = null)
-    {
-        $this->componentAppId         = $componentAppId;
-        $this->componentAccessToken   = $componentAccessToken;
-        $this->authorizerRefreshToken = $authorizerRefreshToken;
-        $this->authorizerAccessToken  = $authorizerAccessToken;
-        $this->authorization          = $authorization;
-        $this->cache                  = $cache;
-
-        $this->setCacheKeyField('componentAppId');
-        $this->setPrefix(static::AUTHORIZATION_INFO_CACHE_PREFIX);
-    }
-
-    /**
-     *
-     * get authorization info
-     *
-     * @return mixed
-     */
-    public function getAuthorizationInfo()
-    {
-        $authorizationInfo = $this->getAuthorizationInfoFromServer();
-        Log::debug('Authorization info:', $authorizationInfo);
-        //save refresh token
-        $this->authorizerRefreshToken->setRefreshToken($authorizationInfo['authorizer_appid'], $authorizationInfo['authorizer_refresh_token']);
-        //save access token
-        $this->authorizerAccessToken->setAuthorizerAppId($authorizationInfo['authorizer_appid'])->setToken($authorizationInfo['authorizer_access_token'], $authorizationInfo['expires_in']);
-
-        return $this->authorization->setAuthorizationInfo($authorizationInfo);
-    }
-
-    /**
-     * get authorization info from server
-     *
-     * @return mixed
-     * @throws HttpException
-     */
-
-    protected function getAuthorizationInfoFromServer()
-    {
-        $http = $this->getHttp();
-
-        $params = [
-            'json' => [
-                'component_appid'    => $this->componentAppId,
-                'authorization_code' => $this->authorizationCode,
-            ],
-        ];
-
-        $authorizationInfo = $http->parseJSON($http->request(self::API_QUERY_AUTH . $this->componentAccessToken->getToken(), 'POST', $params));
-
-        if (!isset($authorizationInfo['authorization_info']) || empty($authorizationInfo['authorization_info'])) {
-            throw new HttpException('Request Authorization info fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
-        }
-
-        return $authorizationInfo['authorization_info'];
-    }
-
-    /**
-     * set authorization code
-     *
-     * @param $authorizationCode
+     * @param $authInfo
      *
      * @return $this
      */
-    public function setAuthorizationCode($authorizationCode)
+    public function setAuthorizationInfo($authorizationInfo)
     {
-        Log::debug('Set authorization code:', [$authorizationCode]);
-        $this->authorizationCode = $authorizationCode;
+        $this->authorizationInfo = $authorizationInfo;
         return $this;
     }
+
+    /**
+     * 获取公众号授权信息字段
+     *
+     * @param $name
+     *
+     * @return mixed|null
+     */
+    public function __get($name)
+    {
+        return isset($this->authorizationInfo[$name]) ? $this->authorizationInfo[$name] : null;
+    }
+
 }

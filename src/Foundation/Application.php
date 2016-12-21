@@ -1,9 +1,12 @@
 <?php
 namespace Chunhei2008\EasyOpenWechat\Foundation;
 
+use Chunhei2008\EasyOpenWechat\Core\AuthorizerInfo;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizationInfoServiceProvider;
+use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizationServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeHandlerServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerAccessTokenServiceProvider;
+use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerInfoServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerRefreshTokenDefaultProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeServiceProvider;
@@ -38,7 +41,7 @@ class Application extends Container
      * @var array
      */
     protected $providers = [
-        AuthorizerServiceProvider::class,
+        AuthorizerInfoServiceProvider::class,
         AuthorizationInfoServiceProvider::class,
         ComponentVerifyTicketServiceProvider::class,
         AuthorizeHandlerServiceProvider::class,
@@ -47,9 +50,10 @@ class Application extends Container
         AuthorizerAccessTokenServiceProvider::class,
         PreAuthCodeServiceProvider::class,
         ComponentLoginPageServiceProvider::class,
-        AuthorizationInfoServiceProvider::class,
-        AuthorizeServiceProvider::class,
+        AuthorizationServiceProvider::class,
+        AuthorizerServiceProvider::class,
         EasyWechatServiceProvider::class,
+        AuthorizeServiceProvider::class,
     ];
 
     public function __construct($config)

@@ -1,93 +1,49 @@
 <?php
 /**
- * AuthorizerInfo.php
+ * Authorizer.php
  *
  * Author: wangyi <chunhei2008@qq.com>
  *
- * Date:   2016/12/16 00:18
+ * Date:   2016/12/21 15:32
  * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
  */
 
 namespace Chunhei2008\EasyOpenWechat\Core;
 
 
-use Chunhei2008\EasyOpenWechat\Traits\HttpTrait;
-use EasyWeChat\Core\Exceptions\HttpException;
-
 class AuthorizerInfo
 {
-
-    use HttpTrait;
-
     /**
-     * api
-     */
-    const API_GET_AUTHORIZER_INFO = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=';
-    /**
-     * component app id
+     * 获取授权方的公众号帐号基本信息
      * @var
      */
-    protected $componentAppId;
 
+    protected $authorizerInfo = [];
 
     /**
-     * component access token
+     * 设置公众账号基本信息
      *
-     * @var ComponentAccessToken
-     */
-
-    protected $componentAccessToken;
-
-    /**
-     * 公众账号基本信息
-     * @var
-     */
-    protected $authorizer;
-
-    public function __construct($componentAppId, ComponentAccessToken $componentAccessToken, Authorizer $authorizer)
-    {
-        $this->componentAppId       = $componentAppId;
-        $this->componentAccessToken = $componentAccessToken;
-        $this->authorizer           = $authorizer;
-    }
-
-    /**
-     *
-     * @param $authorizerAppId
+     * @param $authorizerInfo
      *
      * @return $this
      */
-    public function getAuthorizerInfo($authorizerAppId)
+    public function setAuthorizerInfo($authorizerInfo)
     {
-        $authorizer = $this->getAuthorizerInfoFromServer($authorizerAppId);
-        return $this->authorizer->setBaseInfo($authorizer);
+        $this->authorizerInfo = $authorizerInfo;
+        return $this;
     }
 
     /**
-     * get from server
-     * @return mixed
-     * @throws HttpException
+     *
+     * 获取公众号信息字段
+     *
+     * @param $name
+     *
+     * @return null
      */
-    protected function getAuthorizerInfoFromServer($authorizerAppId)
+    public function __get($name)
     {
-        $params = [
-            'json' => [
-                'component_appid'  => $this->componentAppId,
-                'authorizer_appid' => $authorizerAppId,
-            ],
-        ];
-
-        $http = $this->getHttp();
-
-        $authorizerInfo = $http->parseJSON($http->request(self::API_GET_AUTHORIZER_INFO . $this->componentAccessToken->getToken(), 'POST', $params));
-
-        if (!isset($authorizerInfo['authorizer_info']) || empty($authorizerInfo['authorizer_info'])) {
-            throw new HttpException('Request Authorizer Info fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
-        }
-
-        return $authorizerInfo['authorizer_info'];
-
+        return isset($this->authorizerInfo[$name]) ? $this->authorizerInfo[$name] : null;
     }
-
 
 }
