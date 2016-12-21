@@ -1,7 +1,6 @@
 <?php
 namespace Chunhei2008\EasyOpenWechat\Foundation;
 
-use Chunhei2008\EasyOpenWechat\Core\AuthorizerInfo;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizationInfoServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizationServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeHandlerServiceProvider;
