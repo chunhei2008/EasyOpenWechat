@@ -456,6 +456,7 @@ $app->addProviders($providers);
 <?php
 namespace Chunhei2008\EasyOpenWechat\Contracts;
 
+use Chunhei2008\EasyOpenWechat\Core\Authorization;
 use Chunhei2008\EasyOpenWechat\Core\AuthorizationInfo;
 use Chunhei2008\EasyOpenWechat\Core\ComponentVerifyTicket;
 
@@ -490,7 +491,7 @@ interface AuthorizeHandlerContract
      * @return mixed
      */
 
-    public function authorized($message, AuthorizationInfo $authorizationInfo);
+    public function authorized($message, Authorization $authorization);
 
     /**
      * handle unauthorized
@@ -510,7 +511,7 @@ interface AuthorizeHandlerContract
      *
      * @return mixed
      */
-    public function updateauthorized($message , AuthorizationInfo $authorizationInfo);
+    public function updateauthorized($message , Authorization $authorization);
 
 }
 ```
