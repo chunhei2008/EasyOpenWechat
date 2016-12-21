@@ -105,9 +105,11 @@ class ComponentAccessToken
     public function getTokenFromServer()
     {
         $params = [
-            'component_appid'         => $this->componentAppId,
-            'component_appsecret'     => $this->componentAppSecret,
-            'component_verify_ticket' => $this->componentVerifyTicket->getVerifyTicket(),
+            'json' => [
+                'component_appid'         => $this->componentAppId,
+                'component_appsecret'     => $this->componentAppSecret,
+                'component_verify_ticket' => $this->componentVerifyTicket->getVerifyTicket(),
+            ],
         ];
 
         $http = $this->getHttp();
