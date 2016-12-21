@@ -587,5 +587,5 @@ $app->addProviders($providers);
 
 ## 打赏
 
-(http://7xjw54.com1.z0.glb.clouddn.com/995DC08E787FEE29ACA1CC81F3BABC7B.jpg)
-(http://7xjw54.com1.z0.glb.clouddn.com/6326DF9084B383B6D6CE393FB41B7E61.jpg)
+![zhifubao](http://7xjw54.com1.z0.glb.clouddn.com/995DC08E787FEE29ACA1CC81F3BABC7B.jpg)
+![wechat](http://7xjw54.com1.z0.glb.clouddn.com/6326DF9084B383B6D6CE393FB41B7E61.jpg)
