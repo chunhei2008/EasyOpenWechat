@@ -198,13 +198,15 @@ $response = $wechat->server->setMessageHandler(function ($message) {
 $response->send();
 ```
 
-## 自我实现
+## 自定义
 
 > SDK默认的使用Cache对公众号的关键信息进行缓存存储，但是像authorizer_appid、authorizer_refresh_token等这样的关键信息数据存储最好是存储到数据库等持久存储地方，本SDK也有考虑到这一方面
 
-### authorizer_refresh_token 存储与获取
+### authorizer_refresh_token存储与获取
 
 #### 默认的实现
+
+> 默认实现是使用的Cache进行存储
 
 ```
 <?php
@@ -311,9 +313,9 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
 }
 ```
 
-##### 自定义refresh
+#### 自定义
 
-1. 实现存储数据库
+1. 数据库
 
 ```
 <?php
@@ -333,7 +335,7 @@ use Chunhei2008\EasyOpenWechat\Support\Log;
 use Chunhei2008\EasyOpenWechat\Traits\CacheTrait;
 use Doctrine\Common\Cache\Cache;
 
-class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
+class AuthorizerRefreshTokenDB implements AuthorizerRefreshTokenContract
 {
 
   
@@ -396,7 +398,7 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
 
 namespace Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders;
 
-use Chunhei2008\EasyOpenWechat\Core\AuthorizerRefreshToken;
+use Chunhei2008\EasyOpenWechat\Core\AuthorizerRefreshTokenDB;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -405,8 +407,8 @@ class AuthorizerRefreshTokenDefaultProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['authorizer_refresh_token'] = function ($pimple) {
-            return new AuthorizerRefreshToken(
-                $pimple['cache']
+            return new AuthorizerRefreshTokenDB(
+                $pimple['db']
             );
         };
     }
@@ -414,6 +416,8 @@ class AuthorizerRefreshTokenDefaultProvider implements ServiceProviderInterface
 ```
 
 ### 授权事件
+
+> 处理授权事件的响应以及对授权后的相关数据进行处理
 
 1. 实现AuthorizeHandlerContract契约
 
