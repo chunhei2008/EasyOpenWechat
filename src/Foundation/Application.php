@@ -85,6 +85,19 @@ class Application extends Container
     }
 
     /**
+     * add providers
+     *
+     * @param array $providers
+     */
+
+    public function addProviders(array $providers)
+    {
+        foreach ($providers as $provider) {
+            $this->register(new $provider());
+        }
+    }
+
+    /**
      * Register all providers
      */
     protected function registerProviders()

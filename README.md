@@ -383,7 +383,7 @@ class AuthorizerRefreshTokenDB implements AuthorizerRefreshTokenContract
 }
 ```
 
-2. 服务提供者绑定到容器
+2. 服务提供者
 
 ```
 <?php
@@ -402,10 +402,11 @@ use Chunhei2008\EasyOpenWechat\Core\AuthorizerRefreshTokenDB;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class AuthorizerRefreshTokenDefaultProvider implements ServiceProviderInterface
+class AuthorizerRefreshTokenDBProvider implements ServiceProviderInterface
 {
     public function register(Container $pimple)
     {
+        //覆盖refresh token
         $pimple['authorizer_refresh_token'] = function ($pimple) {
             return new AuthorizerRefreshTokenDB(
                 $pimple['db']
@@ -413,6 +414,36 @@ class AuthorizerRefreshTokenDefaultProvider implements ServiceProviderInterface
         };
     }
 }
+```
+
+3. 服务提供者绑定到容器
+
+```
+<?php
+/**
+ * message.php
+ *
+ * Author: wangyi <chunhei2008@qq.com>
+ *
+ * Date:   2016/12/18 09:13
+ * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
+ */
+
+include "./vendor/autoload.php";
+
+$config = [
+   
+];
+
+
+$app = new \Chunhei2008\EasyOpenWechat\Foundation\Application($config);
+
+$providers = [
+    AuthorizerRefreshTokenDBProvider::class
+];
+
+$app->addProviders($providers);
+
 ```
 
 ### 授权事件
@@ -505,16 +536,48 @@ use Chunhei2008\EasyOpenWechat\Core\AuthorizeHandler;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class AuthorizeHandlerServiceProvider implements ServiceProviderInterface
+class AuthorizeHandlerCustomerServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $pimple)
     {
+        //覆盖
         $pimple['authorize_handler'] = function ($pimple) {
-            return new AuthorizeHandler();
+            return new AuthorizeHandlerCustomer();
         };
     }
 
 }
+```
+
+3. 服务提供者绑定到容器
+
+```
+<?php
+/**
+ * message.php
+ *
+ * Author: wangyi <chunhei2008@qq.com>
+ *
+ * Date:   2016/12/18 09:13
+ * Copyright: (C) 2014, Guangzhou YIDEJIA Network Technology Co., Ltd.
+ */
+
+include "./vendor/autoload.php";
+
+$config = [
+   
+];
+
+
+$app = new \Chunhei2008\EasyOpenWechat\Foundation\Application($config);
+
+//添加到容器
+$providers = [
+    AuthorizeHandlerCustomerServiceProvider::class
+];
+
+$app->addProviders($providers);
+
 ```
 
 ## 感谢
