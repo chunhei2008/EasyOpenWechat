@@ -20,7 +20,6 @@ class AuthorizerRefreshTokenDefaultProvider implements ServiceProviderInterface
     {
         $pimple['authorizer_refresh_token'] = function ($pimple) {
             return new AuthorizerRefreshToken(
-                $pimple['config']['app_id'],
                 $pimple['cache']
             );
         };

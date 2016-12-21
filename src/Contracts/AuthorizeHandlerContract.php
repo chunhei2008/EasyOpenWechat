@@ -44,7 +44,7 @@ interface AuthorizeHandlerContract
      *
      * @return mixed
      */
-    public function unauthorized($message);
+    public function unauthorized($message, AuthorizerRefreshTokenContract $authorizerRefreshToken);
 
     /**
      *

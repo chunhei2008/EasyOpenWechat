@@ -12,6 +12,7 @@ namespace Chunhei2008\EasyOpenWechat\Core;
 
 
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizeHandlerContract;
+use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
 use Chunhei2008\EasyOpenWechat\Support\Log;
 
 class AuthorizeHandler implements AuthorizeHandlerContract
@@ -29,9 +30,10 @@ class AuthorizeHandler implements AuthorizeHandlerContract
         $authorizationInfo->setAuthorizationCode($message['AuthorizationCode'])->getAuthorizationInfo();
     }
 
-    public function unauthorized($message)
+    public function unauthorized($message, AuthorizerRefreshTokenContract $authorizerRefreshToken)
     {
         Log::debug('Unauthorized event:', $message);
+        $authorizerRefreshToken->removeRefreshToken($message['AuthorizerAppid']);
     }
 
     public function updateauthorized($message, AuthorizationInfo $authorizationInfo)

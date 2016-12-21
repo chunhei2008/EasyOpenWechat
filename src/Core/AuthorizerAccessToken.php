@@ -10,6 +10,7 @@
 
 namespace Chunhei2008\EasyOpenWechat\Core;
 
+use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
 use Chunhei2008\EasyOpenWechat\Support\Log;
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AccessToken;
@@ -59,7 +60,7 @@ class AuthorizerAccessToken extends AccessToken
     protected $prefix = 'easyopenwechat.core.authorizer_access_token.';
 
 
-    public function __construct($componentAppId, $authorizerAppId = '', AbstractAuthorizerRefreshToken $authorizerRefreshToken, ComponentAccessToken $componentAccessToken, Cache $cache = null)
+    public function __construct($componentAppId, $authorizerAppId = '', AuthorizerRefreshTokenContract $authorizerRefreshToken, ComponentAccessToken $componentAccessToken, Cache $cache = null)
     {
         $this->componentAppId         = $componentAppId;
         $this->authorizerAppId        = $this->appId = $authorizerAppId;
@@ -107,7 +108,7 @@ class AuthorizerAccessToken extends AccessToken
             'json' => [
                 'component_appid'          => $this->componentAppId,
                 'authorizer_appid'         => $this->authorizerAppId,
-                'authorizer_refresh_token' => $this->authorizerRefreshToken->getRefreshToken(),
+                'authorizer_refresh_token' => $this->authorizerRefreshToken->getRefreshToken($this->authorizerAppId),
             ],
         ];
 

@@ -12,6 +12,7 @@ namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizeHandlerContract;
+use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
 use Chunhei2008\EasyOpenWechat\Core\AuthorizationInfo;
 use Chunhei2008\EasyOpenWechat\Core\ComponentVerifyTicket;
 use EasyWeChat\Server\Guard;
@@ -41,13 +42,22 @@ class Authorize extends Guard
      */
     protected $authorizationInfo;
 
-    public function __construct($token, AuthorizeHandlerContract $authorizeHandler, ComponentVerifyTicket $componentVerifyTicket, AuthorizationInfo $authorizationInfo, Request $request = null)
+    /**
+     *
+     * authorizer Refresh Token
+     *
+     * @var
+     */
+    protected $authorizerRefreshToken;
+
+    public function __construct($token, AuthorizeHandlerContract $authorizeHandler, ComponentVerifyTicket $componentVerifyTicket, AuthorizationInfo $authorizationInfo, AuthorizerRefreshTokenContract $authorizerRefreshToken, Request $request = null)
     {
         parent::__construct($token, $request);
 
-        $this->authorizeHandler      = $authorizeHandler;
-        $this->componentVerifyTicket = $componentVerifyTicket;
-        $this->authorizationInfo     = $authorizationInfo;
+        $this->authorizeHandler       = $authorizeHandler;
+        $this->componentVerifyTicket  = $componentVerifyTicket;
+        $this->authorizationInfo      = $authorizationInfo;
+        $this->authorizerRefreshToken = $authorizerRefreshToken;
     }
 
     /**
@@ -82,7 +92,7 @@ class Authorize extends Guard
                 $this->authorizeHandler->authorized($message, $this->authorizationInfo);
                 break;
             case 'unauthorized':
-                $this->authorizeHandler->unauthorized($message);
+                $this->authorizeHandler->unauthorized($message, $this->authorizerRefreshToken);
                 break;
             case 'updateauthorized':
                 $this->authorizeHandler->updateauthorized($message, $this->authorizationInfo);

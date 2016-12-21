@@ -11,28 +11,29 @@ namespace Chunhei2008\EasyOpenWechat\Contracts;
 interface AuthorizerRefreshTokenContract
 {
     /**
-     * get authorizer refresh token
+     * get refresh token by app id
+     * @param $authorizerAppId
      *
      * @return mixed
      */
-    public function getRefreshToken();
+    public function getRefreshToken($authorizerAppId);
 
     /**
      *
-     * set authorizer refresh token
-     *
+     * set refresh token by app id
+     * @param $authorizerAppId
      * @param $authorizerRefreshToken
      *
      * @return mixed
      */
 
-    public function setRefreshToken($authorizerRefreshToken);
+    public function setRefreshToken($authorizerAppId, $authorizerRefreshToken);
 
     /**
+     * remove refresh token by app id
      * @param $authorizerAppId
      *
      * @return mixed
      */
-
-    public function setAuthorizerAppId($authorizerAppId);
+    public function removeRefreshToken($authorizerAppId);
 }
