@@ -13,7 +13,7 @@ namespace Chunhei2008\EasyOpenWechat\Foundation;
 
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizeHandlerContract;
 use Chunhei2008\EasyOpenWechat\Contracts\AuthorizerRefreshTokenContract;
-use Chunhei2008\EasyOpenWechat\Core\AuthorizationInfo;
+use Chunhei2008\EasyOpenWechat\Core\Authorization;
 use Chunhei2008\EasyOpenWechat\Core\ComponentVerifyTicket;
 use EasyWeChat\Server\Guard;
 use Symfony\Component\HttpFoundation\Request;
