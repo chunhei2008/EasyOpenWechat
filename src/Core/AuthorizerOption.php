@@ -87,7 +87,7 @@ class AuthorizerOption
         $authorizerOption = $http->parseJSON($http->request(self::API_GET_AUTHORIZER_OPTION . $this->componentAccessToken->getToken(), 'POST', $params));
 
         if (!isset($authorizerOption['option_name']) || $authorizerOption['option_name'] != $optionName) {
-            throw new HttpException('');
+            throw new HttpException('Request authorizer option get failed.' . json_encode($authorizerOption, JSON_UNESCAPED_UNICODE));
         }
 
         return $authorizerOption['option_value'];
@@ -118,7 +118,7 @@ class AuthorizerOption
         $result = $http->parseJSON($http->request(self::API_SET_AUTHORIZER_OPTION . $this->componentAccessToken->getToken(), 'POST', $params));
 
         if (!isset($result['errcode']) || $result['errcode'] != 0 || $result['errmsg'] != 'ok') {
-            throw new HttpException('');
+            throw new HttpException('Request authorizer option set failed.' . \GuzzleHttp\json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
         return true;

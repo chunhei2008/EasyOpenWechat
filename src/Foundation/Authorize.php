@@ -116,17 +116,18 @@ class Authorize extends Guard
 
     public function serve()
     {
-        throw new \Exception();
+        throw new \Exception('cant\'t use this method.');
     }
 
     public function setMessageHandler($callback = null, $option = self::ALL_MSG)
     {
-        throw new \Exception();
+        throw new \Exception('cant\'t use this method.');
     }
 
 
     public function getMessageHandler()
     {
-        throw new \Exception();
+        throw new \Exception('cant\'t use this method.');
     }
+
 }

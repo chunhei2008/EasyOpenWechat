@@ -2,6 +2,7 @@
 namespace Chunhei2008\EasyOpenWechat\Traits;
 
 use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\FilesystemCache;
 
 /**
  * CacheTrait.php
