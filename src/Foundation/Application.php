@@ -6,6 +6,7 @@ use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizationServiceP
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeHandlerServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerAccessTokenServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerInfoServiceProvider;
+use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerOptionServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerRefreshTokenDefaultProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizerServiceProvider;
 use Chunhei2008\EasyOpenWechat\Foundation\ServiceProviders\AuthorizeServiceProvider;
@@ -53,6 +54,7 @@ class Application extends Container
         AuthorizerServiceProvider::class,
         EasyWechatServiceProvider::class,
         AuthorizeServiceProvider::class,
+        AuthorizerOptionServiceProvider::class,
     ];
 
     public function __construct($config)
