@@ -17,6 +17,12 @@ use Monolog\Handler\NullHandler;
 class Log extends EasyWechatLog
 {
     /**
+     * logger
+     * @var
+     */
+    protected static $logger;
+
+    /**
      * Return the logger instance.
      *
      * @return \Psr\Log\LoggerInterface

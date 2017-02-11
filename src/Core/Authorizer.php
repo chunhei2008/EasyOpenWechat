@@ -82,7 +82,7 @@ class Authorizer
         $authorizerInfo = $http->parseJSON($http->request(self::API_GET_AUTHORIZER_INFO . $this->componentAccessToken->getToken(), 'POST', $params));
 
         if (!isset($authorizerInfo['authorizer_info']) || empty($authorizerInfo['authorizer_info'])) {
-            throw new HttpException('Request Authorizer Info fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Request Authorizer Info fail. response: ' . json_encode($authorizerInfo, JSON_UNESCAPED_UNICODE));
         }
 
         return $authorizerInfo['authorizer_info'];
