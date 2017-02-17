@@ -10,13 +10,23 @@
 
 ## 说明
 
-> 本SDK是基于[EasyWechat](https://github.com/overtrue/wechat)开发，为了方便微信公众号第三方平台开发，封装了微信公众号授权第三方平台的开发，以及自动化的全网发布接入，所有的功能以及经过现网公众号平台测试，现发布正式1.0.0版本，在使用本SDK遇到问题可以联系我哦，如果觉得本项目对您有帮助麻烦给个star并周知，谢谢
+本SDK是基于[EasyWechat](https://github.com/overtrue/wechat)开发，为了方便微信公众号第三方平台开发，封装了微信公众号授权第三方平台的开发，以及自动化的全网发布接入，所有的功能以及经过现网公众号平台测试，现发布正式1.0.0版本，在使用本SDK遇到问题可以联系我哦，如果觉得本项目对您有帮助麻烦给个star并周知，谢谢
+
+## 安装
+
+```
+composer require chunhei2008/easy-open-wechat
+```
+
+## wiki
+
+[github wiki](https://github.com/chunhei2008/EasyOpenWechat/wiki)
 
 ## 使用示例
 
 ### 配置
 
-> 除了新加的第三方平台的相关配置字段外其余字段依然是EasyWechat的配置字段
+除了新加的第三方平台的相关配置字段外其余字段依然是EasyWechat的配置字段
 
 ```
 $config = [
@@ -36,7 +46,7 @@ $config = [
 
 ### 生成授权页面URI
 
-> 第三方平台方可以在自己的网站:中放置“微信公众号授权”的入口，引导公众号运营者进入授权页。授权页网址为https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=xxxx&pre_auth_code=xxxxx&redirect_uri=xxxx，该网址中第三方平台方需要提供第三方平台方appid、预授权码和回调URI
+第三方平台方可以在自己的网站:中放置“微信公众号授权”的入口，引导公众号运营者进入授权页。授权页网址为https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=xxxx&pre_auth_code=xxxxx&redirect_uri=xxxx，该网址中第三方平台方需要提供第三方平台方appid、预授权码和回调URI
 
 ```
 <?php
@@ -76,7 +86,7 @@ echo "<a href=\"$page\">auth</a>";
 
 ### 授权回调页面
 
-> 授权流程完成后，授权页会自动跳转进入回调URI，并在URL参数中返回授权码和过期时间(redirect_url?auth_code=xxx&expires_in=600);在得到授权码后，第三方平台方可以使用授权码换取授权公众号的接口调用凭据（authorizer_access_token，也简称为令牌），再通过该接口调用凭据，按照公众号开发者文档（mp.weixin.qq.com/wiki）的说明，去调用公众号相关API（能调用哪些API，取决于用户将哪些权限集授权给了第三方平台方，也取决于公众号自身拥有哪些接口权限），使用JS SDK等能力。具体请见【公众号第三方平台的接口说明】
+授权流程完成后，授权页会自动跳转进入回调URI，并在URL参数中返回授权码和过期时间(redirect_url?auth_code=xxx&expires_in=600);在得到授权码后，第三方平台方可以使用授权码换取授权公众号的接口调用凭据（authorizer_access_token，也简称为令牌），再通过该接口调用凭据，按照公众号开发者文档（mp.weixin.qq.com/wiki）的说明，去调用公众号相关API（能调用哪些API，取决于用户将哪些权限集授权给了第三方平台方，也取决于公众号自身拥有哪些接口权限），使用JS SDK等能力。具体请见【公众号第三方平台的接口说明】
 
 ```
 <?php
@@ -120,7 +130,7 @@ var_dump($auth_info);
 
 ### 授权事件处理
 
-> 授权过程的所有授权事件响应，包括全网发布监测响应
+授权过程的所有授权事件响应，包括全网发布监测响应
 
 ```
 <?php
@@ -200,13 +210,13 @@ $response->send();
 
 ## 自定义
 
-> SDK默认的使用Cache对公众号的关键信息进行缓存存储，但是像authorizer_appid、authorizer_refresh_token等这样的关键信息数据存储最好是存储到数据库等持久存储地方，本SDK也有考虑到这一方面
+SDK默认的使用Cache对公众号的关键信息进行缓存存储，但是像authorizer_appid、authorizer_refresh_token等这样的关键信息数据存储最好是存储到数据库等持久存储地方，本SDK也有考虑到这一方面
 
 ### authorizer_refresh_token存储与获取
 
 #### 默认的实现
 
-> 默认实现是使用的Cache进行存储
+默认实现是使用的Cache进行存储
 
 ```
 <?php
@@ -448,7 +458,7 @@ $app->addProviders($providers);
 
 ### 授权事件
 
-> 处理授权事件的响应以及对授权后的相关数据进行处理
+处理授权事件的响应以及对授权后的相关数据进行处理
 
 1. 实现AuthorizeHandlerContract契约
 
