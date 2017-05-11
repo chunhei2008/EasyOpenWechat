@@ -28,7 +28,7 @@ composer require chunhei2008/easy-open-wechat
 
 除了新加的第三方平台的相关配置字段外其余字段依然是EasyWechat的配置字段
 
-```
+```php
 $config = [
     'debug'                => false,                        //是否调试模式
     'component_app_id'     => 'component app id',           //第三方公众平台app id
@@ -48,7 +48,7 @@ $config = [
 
 第三方平台方可以在自己的网站:中放置“微信公众号授权”的入口，引导公众号运营者进入授权页。授权页网址为https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=xxxx&pre_auth_code=xxxxx&redirect_uri=xxxx，该网址中第三方平台方需要提供第三方平台方appid、预授权码和回调URI
 
-```
+```php
 <?php
 /**
  * auth.php
@@ -65,11 +65,8 @@ $config = [
     'debug'                => true,
     'component_app_id'     => '第三方平台app id',
     'component_app_secret' => '第三方平台app secret',
-    'token'                => '公众号消息校验Token
-',
-    'aes_key'              => '公众号消息加解密Key
-
-',
+    'token'                => '公众号消息校验Token',
+    'aes_key'              => '公众号消息加解密Key',
     'redirect_uri' => '授权回调页面url',
     'log' => [
         'level' => 'debug',
@@ -88,7 +85,7 @@ echo "<a href=\"$page\">auth</a>";
 
 授权流程完成后，授权页会自动跳转进入回调URI，并在URL参数中返回授权码和过期时间(redirect_url?auth_code=xxx&expires_in=600);在得到授权码后，第三方平台方可以使用授权码换取授权公众号的接口调用凭据（authorizer_access_token，也简称为令牌），再通过该接口调用凭据，按照公众号开发者文档（mp.weixin.qq.com/wiki）的说明，去调用公众号相关API（能调用哪些API，取决于用户将哪些权限集授权给了第三方平台方，也取决于公众号自身拥有哪些接口权限），使用JS SDK等能力。具体请见【公众号第三方平台的接口说明】
 
-```
+```php
 <?php
 /**
  * authcallback.php
@@ -104,11 +101,8 @@ $config = [
     'debug'                => true,
     'component_app_id'     => '第三方平台app id',
     'component_app_secret' => '第三方平台app secret',
-    'token'                => '公众号消息校验Token
-',
-    'aes_key'              => '公众号消息加解密Key
-
-',
+    'token'                => '公众号消息校验Token',
+    'aes_key'              => '公众号消息加解密Key',
     'redirect_uri' => '授权回调页面url',
     'log' => [
         'level' => 'debug',
@@ -132,7 +126,7 @@ var_dump($auth_info);
 
 授权过程的所有授权事件响应，包括全网发布监测响应
 
-```
+```php
 <?php
 
 include "./vendor/autoload.php";
@@ -141,11 +135,8 @@ $config = [
     'debug'                => true,
     'component_app_id'     => '第三方平台app id',
     'component_app_secret' => '第三方平台app secret',
-    'token'                => '公众号消息校验Token
-',
-    'aes_key'              => '公众号消息加解密Key
-
-',
+    'token'                => '公众号消息校验Token',
+    'aes_key'              => '公众号消息加解密Key',
     'redirect_uri' => '授权回调页面url',
     'log' => [
         'level' => 'debug',
@@ -161,7 +152,7 @@ $app->auth->handle()->send();
 
 ### 公众号消息与事件处理
 
-```
+```php
 <?php
 /**
  * message.php
@@ -178,11 +169,8 @@ $config = [
     'debug'                => true,
     'component_app_id'     => '第三方平台app id',
     'component_app_secret' => '第三方平台app secret',
-    'token'                => '公众号消息校验Token
-',
-    'aes_key'              => '公众号消息加解密Key
-
-',
+    'token'                => '公众号消息校验Token',
+    'aes_key'              => '公众号消息加解密Key',
     'redirect_uri' => '授权回调页面url',
     'log' => [
         'level' => 'debug',
@@ -208,6 +196,73 @@ $response = $wechat->server->setMessageHandler(function ($message) {
 $response->send();
 ```
 
+### 发起网页授权
+
+```php
+// http://easywechat.org/user/profile
+
+<?php
+include "./vendor/autoload.php";
+
+$config = [
+  // ...
+  'oauth' => [
+      'scopes'   => ['snsapi_userinfo'],
+      'callback' => '/oauth_callback',
+  ],
+  // ..
+];
+
+// app_id 参数在生成按钮链接时添加
+$app_id = isset($_GET['app_id']) ? $_GET['app_id'] : $_SESSION['app_id'];
+$config['app_id'] = $app_id;
+
+// 存放在 session 中
+$_SESSION['app_id'] = $app_id;
+
+$app = new \Chunhei2008\EasyOpenWechat\Foundation\Application($config);
+$oauth = $app->oauth;
+
+// 未登录
+if (empty($_SESSION['wechat_user'])) {
+    $_SESSION['target_url'] = 'user/profile';
+    return $oauth->redirect();
+    // 这里不一定是return，如果你的框架 action 不是返回内容的话你就得使用
+    // $oauth->redirect()->send();
+}
+
+// 已经登录过
+$user = $_SESSION['wechat_user'];
+// ...
+```
+
+授权回调页：
+
+```php
+// http://easywechat.org/oauth_callback
+
+<?php
+include "./vendor/autoload.php";
+
+$config = [
+  // ...
+];
+
+$config['app_id'] = $_SESSION['app_id'];
+
+$app = new \Chunhei2008\EasyOpenWechat\Foundation\Application($config);
+$oauth = $app->oauth;
+
+// 获取 OAuth 授权结果用户信息
+$user = $oauth->user();
+
+$_SESSION['wechat_user'] = $user->toArray();
+
+$targetUrl = empty($_SESSION['target_url']) ? '/' : $_SESSION['target_url'];
+
+header('location:'. $targetUrl); // 跳转到 user/profile
+```
+
 ## 自定义
 
 SDK默认的使用Cache对公众号的关键信息进行缓存存储，但是像authorizer_appid、authorizer_refresh_token等这样的关键信息数据存储最好是存储到数据库等持久存储地方，本SDK也有考虑到这一方面
@@ -218,7 +273,7 @@ SDK默认的使用Cache对公众号的关键信息进行缓存存储，但是像
 
 默认实现是使用的Cache进行存储
 
-```
+```php
 <?php
 /**
  * AuthorizerRefreshToken.php
@@ -327,7 +382,7 @@ class AuthorizerRefreshToken implements AuthorizerRefreshTokenContract
 
 1. 数据库
 
-```
+```php
 <?php
 /**
  * AuthorizerRefreshToken.php
@@ -395,7 +450,7 @@ class AuthorizerRefreshTokenDB implements AuthorizerRefreshTokenContract
 
 2. 服务提供者
 
-```
+```php
 <?php
 /**
  * AuthorizerRefreshTokenDefaultProvider.php
@@ -428,7 +483,7 @@ class AuthorizerRefreshTokenDBProvider implements ServiceProviderInterface
 
 3. 服务提供者绑定到容器
 
-```
+```php
 <?php
 /**
  * message.php
@@ -462,7 +517,7 @@ $app->addProviders($providers);
 
 1. 实现AuthorizeHandlerContract契约
 
-```
+```php
 <?php
 namespace Chunhei2008\EasyOpenWechat\Contracts;
 
@@ -528,8 +583,7 @@ interface AuthorizeHandlerContract
 
 2. 服务提供者绑定到容器
 
-```
-
+```php
 <?php
 /**
  * AuthorizeHandlerServiceProvider.php
@@ -562,7 +616,7 @@ class AuthorizeHandlerCustomerServiceProvider implements ServiceProviderInterfac
 
 3. 服务提供者绑定到容器
 
-```
+```php
 <?php
 /**
  * message.php
@@ -588,7 +642,6 @@ $providers = [
 ];
 
 $app->addProviders($providers);
-
 ```
 
 ## 感谢
